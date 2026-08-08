@@ -189,8 +189,9 @@ tbody tr:hover { background: #f5f6f7; }
 .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .requirement-section { padding: 16px 18px; border: 1px solid transparent; border-left-width: 3px; border-radius: 10px; margin-bottom: 18px; }
 .requirement-section ul { list-style: none; padding: 0; margin: 0; }
-.requirement-section li { font-size: 14px; line-height: 1.5; padding: 4px 0; }
-.requirement-section li::before { content: "•"; margin-right: 7px; }
+.requirement-section li { display: flex; align-items: baseline; gap: 7px; font-size: 14px; line-height: 1.5; padding: 4px 0; }
+.requirement-section li::before { content: "•"; flex: 0 0 auto; }
+.requirement-section li > button, .requirement-section li > strong { min-width: 0; }
 .requirement-section button { padding: 0; border: 0; background: transparent; color: inherit; font-size: 14px; font-weight: 700; line-height: 1.5; cursor: pointer; text-align: left; }
 .requirement-section button:hover, .requirement-section button:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; outline: none; }
 .requirement-section li > strong { font-weight: 700; }
