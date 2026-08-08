@@ -191,11 +191,13 @@ tbody tr:hover { background: #f5f6f7; }
 .requirement-section ul { list-style: none; padding: 0; margin: 0; }
 .requirement-section li { font-size: 14px; line-height: 1.5; padding: 4px 0; }
 .requirement-section li::before { content: "•"; margin-right: 7px; }
+.requirement-section button { padding: 0; border: 0; background: transparent; color: inherit; font-size: 14px; font-weight: 700; line-height: 1.5; cursor: pointer; text-align: left; }
+.requirement-section button:hover, .requirement-section button:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; outline: none; }
+.requirement-section li > strong { font-weight: 700; }
 .prerequisite-section { background: var(--blue-soft); border-color: #b9cbd4; border-left-color: var(--blue); }.prerequisite-section h3 { color: #476979; }
 .corequisite-section { background: var(--red-soft); border-color: #dec9c6; border-left-color: var(--red); }.corequisite-section h3 { color: #8a504b; }
 .unlock-section { background: var(--unlock-soft); border-color: #c7d7ce; border-left-color: var(--unlock); margin-bottom: 0; }.unlock-section h3 { color: #4e6f5d; }
-.unlock-section button { padding: 0; border: 0; background: transparent; color: #456754; font-size: 14px; font-weight: 650; cursor: pointer; text-align: left; }
-.unlock-section button:hover, .unlock-section button:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; outline: none; }
+.unlock-section button { color: #456754; }
 .empty-detail { color: var(--muted); font-style: italic; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
@@ -222,7 +224,7 @@ tbody tr:hover { background: #f5f6f7; }
   .table-wrap { overflow: visible; border: 0; background: transparent; }.table-wrap table, .table-wrap tbody { display: block; min-width: 0; }.table-wrap thead { display: none; }.table-wrap tbody { display: grid; gap: 12px; }.table-wrap tbody tr { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; padding: 15px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); box-shadow: 0 5px 18px rgba(38,60,52,.04); }.table-wrap td { display: flex; flex-direction: column; gap: 4px; padding: 7px 0; border: 0; }.table-wrap td::before { content: attr(data-label); color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }.table-wrap td[data-label="Disciplina"] { grid-column: 1 / -1; order: -1; padding-bottom: 12px; border-bottom: 1px solid #eceee8; }.table-wrap td[data-label="Disciplina"]::before { display: none; }.table-wrap td[data-label="Trilha"] { grid-column: 1 / -1; }.course-name-button strong { font-size: 15px; line-height: 1.35; }.course-name-button small { white-space: normal; margin-top: 5px; }
   .sections-section .schedule-column { width: auto; min-width: 0; }
   .graph-intro { margin-bottom: 22px; }.graph-legend { flex-wrap: wrap; }.graph-controls { grid-template-columns: 1fr auto; gap: 10px; }.graph-search { grid-column: 1 / -1; }.graph-controls > span { font-size: 14px; }.graph-canvas { grid-template-columns: 1fr; gap: 14px; padding: 14px; }.graph-node { min-height: 88px; }.graph-lines { opacity: .55; }
-  .detail-grid { grid-template-columns: 1fr; gap: 0; }.modal-backdrop { height: 100dvh; max-height: 100dvh; overflow: hidden; padding: 0; place-items: start center; }.detail-modal { height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; border-radius: 0; }.close-button { top: calc(17px + env(safe-area-inset-top)); }.modal-heading { padding: calc(26px + env(safe-area-inset-top)) 58px 22px 22px; border-radius: 0; }.modal-heading h2 { font-size: 23px; }.modal-content { padding: 22px 22px calc(22px + env(safe-area-inset-bottom)); border-radius: 0; }
+  .detail-grid { grid-template-columns: 1fr; gap: 0; }.modal-backdrop { height: 100dvh; max-height: 100dvh; overflow: hidden; padding: 0; place-items: start center; }.detail-modal { height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; border-radius: 0; }.close-button { top: calc(17px + env(safe-area-inset-top)); }.modal-heading { padding: calc(26px + env(safe-area-inset-top)) 58px 22px 22px; border-radius: 0; }.modal-heading h2 { font-size: 23px; }.modal-content { padding: 22px 22px calc(22px + env(safe-area-inset-bottom)); border-radius: 0; }.requirement-section li, .requirement-section button { font-size: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }

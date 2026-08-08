@@ -9,17 +9,20 @@ export function DetailModal({ course, courses, releases, onClose, onOpen }: {
   onClose: () => void;
   onOpen: (course: Course) => void;
 }) {
-  const nameFor = (reference: string) => {
-    const target = courses.find((item) => canonical(item.code) === canonical(resolveReference(reference, courses)));
-    return target ? `${target.code} — ${target.name}` : reference;
-  };
+  const courseFor = (reference: string) => courses.find((item) => canonical(item.code) === canonical(resolveReference(reference, courses)));
   useEffect(() => {
     const close = (event: KeyboardEvent) => event.key === "Escape" && onClose();
     document.addEventListener("keydown", close);
     document.body.style.overflow = "hidden";
     return () => { document.removeEventListener("keydown", close); document.body.style.overflow = ""; };
   }, [onClose]);
-  const list = (items: string[], empty: string) => items.length ? <ul>{items.map((item) => <li key={item}>{nameFor(item)}</li>)}</ul> : <p className="empty-detail">{empty}</p>;
+  const list = (items: string[], empty: string) => items.length ? <ul>{items.map((item) => {
+    const target = courseFor(item);
+    return <li key={item}>{target
+      ? <button onClick={() => onOpen(target)}>{target.code} — {target.name}</button>
+      : <strong>{item}</strong>}
+    </li>;
+  })}</ul> : <p className="empty-detail">{empty}</p>;
 
   return <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
     <section className="detail-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
