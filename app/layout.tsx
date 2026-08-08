@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Grade Curricular",
-  description: "Explore a grade curricular, disciplinas e suas dependências.",
+  description: "Explore a grade curricular, turmas, disciplinas e suas dependências.",
   other: { "codex-preview": "development" },
 };
 
