@@ -1,0 +1,31 @@
+{
+  "disciplinas_url": "https://raw.githubusercontent.com/daltonserey/ppc-2023-em-dados/refs/heads/master/dados/disciplinas.json",
+  "grade2023_url": "https://docs.google.com/spreadsheets/d/1eMhue4891tuD8pUGYlB2fWpWXDtbGE2IEyNEgy28pHM/gviz/tq?tqx=out:csv&sheet=grade2023&range=A:Z&headers=1",
+  "turmas2026_2_url": "https://docs.google.com/spreadsheets/d/10kUHJNiyvzLC20LcIwiTdkDXkbAEy9mPUvr8gzwo688/gviz/tq?tqx=out:csv&sheet=2026.2&range=A:Z&headers=1",
+  "codigos_ignorados": [
+    "1301123",
+    "1302123",
+    "1305218",
+    "1411182",
+    "1411209",
+    "1411302",
+    "1411305",
+    "1411306",
+    "1411326",
+    "1411329",
+    "1411335",
+    "1411344",
+    "1411350",
+    "1411351",
+    "1411352",
+    "1411355",
+    "1411356",
+    "1411357",
+    "1411358",
+    "1411359",
+    "1411360",
+    "1411361",
+    "1411362",
+    "1411363"
+  ]
+}
