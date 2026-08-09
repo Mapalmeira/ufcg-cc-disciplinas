@@ -1,31 +1,129 @@
 {
-  "disciplinas_url": "https://raw.githubusercontent.com/daltonserey/ppc-2023-em-dados/refs/heads/master/dados/disciplinas.json",
-  "grade2023_url": "https://docs.google.com/spreadsheets/d/1eMhue4891tuD8pUGYlB2fWpWXDtbGE2IEyNEgy28pHM/gviz/tq?tqx=out:csv&sheet=grade2023&range=A:Z&headers=1",
-  "turmas2026_2_url": "https://docs.google.com/spreadsheets/d/10kUHJNiyvzLC20LcIwiTdkDXkbAEy9mPUvr8gzwo688/gviz/tq?tqx=out:csv&sheet=2026.2&range=A:Z&headers=1",
-  "codigos_ignorados": [
-    "1301123",
-    "1302123",
-    "1305218",
-    "1411182",
-    "1411209",
-    "1411302",
-    "1411305",
-    "1411306",
-    "1411326",
-    "1411329",
-    "1411335",
-    "1411344",
-    "1411350",
-    "1411351",
-    "1411352",
-    "1411355",
-    "1411356",
-    "1411357",
-    "1411358",
-    "1411359",
-    "1411360",
-    "1411361",
-    "1411362",
-    "1411363"
+  "actions": [
+    {
+      "type": "ppc_json",
+      "url": "https://raw.githubusercontent.com/daltonserey/ppc-2023-em-dados/refs/heads/master/dados/disciplinas.json"
+    },
+    {
+      "type": "course_csv",
+      "url": "https://docs.google.com/spreadsheets/d/1eMhue4891tuD8pUGYlB2fWpWXDtbGE2IEyNEgy28pHM/gviz/tq?tqx=out:csv&sheet=grade2023&range=A:Z&headers=1"
+    },
+    {
+      "type": "classes_csv",
+      "url": "https://docs.google.com/spreadsheets/d/10kUHJNiyvzLC20LcIwiTdkDXkbAEy9mPUvr8gzwo688/gviz/tq?tqx=out:csv&sheet=2026.2&range=A:Z&headers=1"
+    },
+    {
+      "type": "apply",
+      "structure": {
+        "courses": {
+          "0000001": {
+            "category": "slot_optativa"
+          },
+          "0000002": {
+            "category": "slot_optativa"
+          },
+          "0000003": {
+            "category": "slot_optativa"
+          },
+          "0000004": {
+            "category": "slot_optativa"
+          },
+          "0000005": {
+            "category": "slot_optativa"
+          },
+          "0000006": {
+            "category": "slot_optativa"
+          },
+          "0000007": {
+            "category": "slot_optativa"
+          },
+          "0000008": {
+            "category": "slot_optativa"
+          },
+          "0000009": {
+            "category": "slot_optativa"
+          },
+          "0000010": {
+            "category": "slot_optativa"
+          },
+          "0000011": {
+            "category": "slot_optativa"
+          },
+          "1301123": {
+            "ignored": true
+          },
+          "1302123": {
+            "ignored": true
+          },
+          "1305218": {
+            "ignored": true
+          },
+          "1411182": {
+            "ignored": true
+          },
+          "1411209": {
+            "ignored": true
+          },
+          "1411302": {
+            "ignored": true
+          },
+          "1411305": {
+            "ignored": true
+          },
+          "1411306": {
+            "ignored": true
+          },
+          "1411326": {
+            "ignored": true
+          },
+          "1411329": {
+            "ignored": true
+          },
+          "1411335": {
+            "ignored": true
+          },
+          "1411344": {
+            "ignored": true
+          },
+          "1411350": {
+            "ignored": true
+          },
+          "1411351": {
+            "ignored": true
+          },
+          "1411352": {
+            "ignored": true
+          },
+          "1411355": {
+            "ignored": true
+          },
+          "1411356": {
+            "ignored": true
+          },
+          "1411357": {
+            "ignored": true
+          },
+          "1411358": {
+            "ignored": true
+          },
+          "1411359": {
+            "ignored": true
+          },
+          "1411360": {
+            "ignored": true
+          },
+          "1411361": {
+            "ignored": true
+          },
+          "1411362": {
+            "ignored": true
+          },
+          "1411363": {
+            "ignored": true
+          }
+        },
+        "sections": {}
+      }
+    }
   ]
 }

@@ -6,16 +6,18 @@
     "dev": "vite",
     "build": "vinext build",
     "start": "vinext start",
-    "test": "node --experimental-strip-types --test app/data/*.test.ts"
+    "test": "node --experimental-strip-types --test app/curriculum/*.test.ts app/curriculum/load-actions/*.test.ts"
   },
   "dependencies": {
     "next": "^16.3.0",
+    "papaparse": "^5.5.4",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
+    "@types/papaparse": "^5.5.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
