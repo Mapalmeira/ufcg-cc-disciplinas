@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Course } from "../curriculum/types";
-import { canonical, formatCategory, formatPeriod, plain, resolveReference, splitTracks } from "./utils";
+import type { Course } from "../../curriculum/types";
+import { canonical, formatCategory, formatPeriod, plain, resolveReference, splitTracks } from "../shared/utils";
 
 export function DependencyGraph({ courses, onOpen }: { courses: Course[]; onOpen: (course: Course) => void }) {
   const graphCourses = useMemo(

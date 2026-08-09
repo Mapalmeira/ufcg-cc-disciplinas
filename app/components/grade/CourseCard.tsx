@@ -1,4 +1,4 @@
-import type { Course } from "../curriculum/types";
+import type { Course } from "../../curriculum/types";
 
 export type CourseRelation = "prerequisite" | "corequisite" | "unlocks" | "focus";
 export type PlanningStatus = "paid" | "planned";

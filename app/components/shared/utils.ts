@@ -1,4 +1,4 @@
-import type { Course } from "../curriculum/types";
+import type { Course } from "../../curriculum/types";
 
 export function plain(value: string | undefined) {
   return (value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();

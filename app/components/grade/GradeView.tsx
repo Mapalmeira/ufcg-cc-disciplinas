@@ -1,7 +1,7 @@
-import type { Course } from "../curriculum/types";
+import type { Course } from "../../curriculum/types";
 import { CourseCard } from "./CourseCard";
 import type { CourseRelation, PlanningStatus } from "./CourseCard";
-import { formatPeriod } from "./utils";
+import { formatPeriod } from "../shared/utils";
 
 export function GradeView({ courses, statuses, relationFor, hovered, onCycle, onOpen, onHover, onClear }: {
   courses: Course[];

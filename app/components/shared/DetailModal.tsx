@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { Course } from "../curriculum/types";
+import type { Course } from "../../curriculum/types";
 import { canonical, formatCategory, formatPeriod, resolveReference, splitTracks } from "./utils";
 
 export function DetailModal({ course, courses, releases, onClose, onOpen }: {
