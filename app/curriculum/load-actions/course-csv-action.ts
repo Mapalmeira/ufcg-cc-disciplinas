@@ -16,39 +16,29 @@ export class ApplyCourseCsv implements LoadAction {
     return this.structure(await fetchCsv(this.url));
   }
 
-  private structure(values: string[][]): CurriculumData {
+  private structure(rows: Record<string, string>[]): CurriculumData {
     const result = createCurriculumData();
 
-    for (const row of values.slice(1)) {
-      const [
-        code = "",
-        period = "",
-        kind = "",
-        name = "",
-        credits = "",
-        hours = "",
-        prerequisites = "",
-        corequisites = "",
-        ,
-        tracks = "",
-      ] = row;
+    for (const row of rows) {
+      const code = row.codigo;
+      const name = row.disciplina;
 
       if (!code || !name) continue;
 
       const course: Course = {
         code,
         names: [name],
-        prerequisites: this.parseList(prerequisites),
-        corequisites: this.parseList(corequisites),
-        tracks: this.parseList(tracks),
+        prerequisites: this.parseList(row.reqs),
+        corequisites: this.parseList(row.corr),
+        tracks: this.parseList(row.trilhas),
       };
 
-      const parsedPeriod = this.parseNumber(period);
-      const parsedCredits = this.parseNumber(credits);
-      const parsedHours = this.parseNumber(hours);
+      const parsedPeriod = this.parseNumber(row.periodo);
+      const parsedCredits = this.parseNumber(row.creditos);
+      const parsedHours = this.parseNumber(row.horas);
 
-      if (kind === "obr") course.category = "obrigatoria";
-      if (kind === "opt") course.category = "optativa";
+      if (row.tipo === "obr") course.category = "obrigatoria";
+      if (row.tipo === "opt") course.category = "optativa";
       if (parsedPeriod !== undefined) course.period = parsedPeriod;
       if (parsedCredits !== undefined) course.credits = parsedCredits;
       if (parsedHours !== undefined) course.hours = parsedHours;
@@ -59,13 +49,13 @@ export class ApplyCourseCsv implements LoadAction {
     return result;
   }
 
-  private parseNumber(value: string) {
-    if (!value.trim()) return undefined;
+  private parseNumber(value = "") {
+    if (!value) return undefined;
     const result = Number(value);
     return Number.isFinite(result) ? result : undefined;
   }
 
-  private parseList(value: string) {
-    return value.trim() ? value.trim().split(/\s+/) : [];
+  private parseList(value = "") {
+    return value ? value.split(/\s+/) : [];
   }
 }

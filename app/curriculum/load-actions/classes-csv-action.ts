@@ -18,22 +18,18 @@ export class ApplyClassesCsv implements LoadAction {
     return this.structure(await fetchCsv(this.url));
   }
 
-  private structure(values: string[][]): CurriculumData {
+  private structure(rows: Record<string, string>[]): CurriculumData {
     const result = createCurriculumData();
 
-    for (const [index, row] of values.slice(1).entries()) {
-      const [
-        code = "",
-        professorMnemonic = "",
-        mnemonic = "",
-        section = "",
-        ,
-        room = "",
-        ,
-        schedule = "",
-        seats = "",
-        professor = "",
-      ] = row;
+    for (const [index, row] of rows.entries()) {
+      const code = row.codigo;
+      const professorMnemonic = row.professor;
+      const mnemonic = row.sigla;
+      const section = row.nturma;
+      const room = row.local;
+      const schedule = row["aulas SIGAA"];
+      const seats = row.capacidade;
+      const professor = row["prof.fullname"];
 
       if (!code || (!professor && !professorMnemonic)) continue;
 

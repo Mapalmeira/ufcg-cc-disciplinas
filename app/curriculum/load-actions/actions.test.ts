@@ -18,13 +18,13 @@ test("parses and resolves ordered curriculum load actions", async () => {
     ementa: "Ementa do PPC",
   }]));
   const courseUrl = dataUrl("text/csv", [
-    "code,period,kind,name,credits,hours,prerequisites,corequisites,unused,tracks",
-    "1411111,3,opt,Nome CSV,4,60,,,,Dados",
+    "trilhas,disciplina,horas,codigo,corr,tipo,creditos,reqs,periodo,ordem",
+    "Dados,Nome CSV,60,1411111,,opt,4,,3,",
   ].join("\n"));
   const classesUrl = dataUrl("text/csv", [
-    Array.from({ length: 13 }, (_, index) => `column-${index}`).join(","),
-    "1411111,prof,MN,01,,CAA-101,,24M12,30,Professora Teste,,,Nome CSV",
-    "9999999,prof,ORPHAN,01,,CAA-102,,24M34,20,Professor Órfão,,,Curso inexistente",
+    "vagas,prof.fullname,aulas SIGAA,sigla,codigo,capacidade,local,nturma,professor,disciplina",
+    "28,Professora Teste,24M12,MN,1411111,30,CAA-101,01,prof,Nome CSV",
+    "18,Professor Órfão,24M34,ORPHAN,9999999,20,CAA-102,01,prof,Curso inexistente",
   ].join("\n"));
 
   const actions = parseLoadActions([
@@ -53,6 +53,15 @@ test("parses and resolves ordered curriculum load actions", async () => {
   assert.deepEqual(structure.courses["1411111"].mnemonics, ["MN"]);
   assert.equal(structure.courses["1411111"].category, "slot_optativa");
   assert.equal(structure.courses["1411111"].period, 3);
+  assert.deepEqual(structure.sections["1411111:01:0"], {
+    course_code: "1411111",
+    professor: "Professora Teste",
+    professor_mnemonic: "prof",
+    section: "01",
+    room: "CAA-101",
+    schedule: "24M12",
+    seats: "30",
+  });
   assert.equal(structure.courses["9999999"], undefined);
   assert.equal(structure.sections["9999999:01:1"].course_code, "9999999");
 });
