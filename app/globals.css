@@ -105,13 +105,13 @@ main { min-height: calc(100vh - 150px); }
 .sections-toolbar { padding: 18px; background: var(--white); border: 1px solid var(--line); border-radius: 15px; box-shadow: 0 8px 30px rgba(38,60,52,.05); }
 .sections-toolbar .search-control { width: 100%; max-width: none; }
 .catalog-toolbar label:not(.search-field) { display: flex; flex-direction: column; gap: 6px; }
-.catalog-toolbar label > span { font-size: 14px; color: var(--muted); font-weight: 700; }
+.catalog-toolbar label:not(.search-control) > span { font-size: 14px; color: var(--muted); font-weight: 700; }
 .search-control { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .search-control > span:first-child { color: var(--muted); font-size: 14px; font-weight: 700; }
 .search-field { height: 46px; display: flex; align-items: center; border: 1px solid var(--line); border-radius: 11px; padding: 0 14px; background: var(--white); box-shadow: inset 0 1px 0 rgba(255,255,255,.8); transition: border-color .18s, box-shadow .18s, background .18s; }
 .search-field:focus-within { border-color: #aeb6b2; background: var(--white); box-shadow: 0 0 0 3px rgba(37,49,46,.07); }
 .search-field svg { flex: 0 0 auto; width: 20px; height: 20px; color: #7b8581; }
-.search-field input { width: 100%; border: 0; background: transparent; outline: none; padding: 0 11px; color: var(--ink); font-size: 14px; }
+.search-field input { width: 100%; border: 0; background: transparent; outline: none; padding: 0 11px; color: var(--ink); font-size: 14px; font-weight: 400; }
 .search-field input::placeholder { color: #8a9992; }
 .catalog-toolbar select { height: 46px; border: 1px solid var(--line); border-radius: 9px; padding: 0 35px 0 12px; outline: none; background: #fbfbf8; color: var(--ink); font-size: 14px; }
 .clear-filters { height: 46px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 9px; background: #f7f8f7; color: var(--ink); font-size: 13px; font-weight: 700; line-height: 1; cursor: pointer; padding: 0 16px; transition: background .18s, border-color .18s, box-shadow .18s; }
@@ -155,7 +155,7 @@ tbody tr:hover { background: #f5f6f7; }
 .graph-search { height: 46px; display: flex; align-items: center; border: 1px solid var(--line); border-radius: 11px; padding: 0 14px; background: var(--white); transition: border-color .18s, box-shadow .18s; }
 .graph-search:focus-within { border-color: #aeb6b2; box-shadow: 0 0 0 3px rgba(37,49,46,.07); }
 .graph-search svg { flex: 0 0 auto; width: 20px; height: 20px; color: #7b8581; }
-.graph-search input { width: 100%; border: 0; outline: 0; background: transparent; padding-left: 11px; font-size: 14px; color: var(--ink); }
+.graph-search input { width: 100%; border: 0; outline: 0; background: transparent; padding-left: 11px; font-size: 14px; font-weight: 400; color: var(--ink); }
 .graph-canvas { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); align-items: stretch; gap: 18px; min-height: 260px; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.35); }
 .graph-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 0; }
 .graph-lines > path { fill: none; stroke: rgba(76,120,144,.78); stroke-width: 1.7; }
