@@ -55,12 +55,12 @@ main { min-height: calc(100vh - 150px); }
 .error-state { background: var(--white); padding: 42px; border: 1px solid var(--line); border-radius: 18px; width: min(540px, calc(100% - 40px)); }
 .error-state strong { display: block; color: var(--ink); font-size: 20px; }
 .error-state button { border: 0; background: var(--accent); color: white; padding: 10px 15px; border-radius: 9px; cursor: pointer; }
-.grade-section, .catalog-section, .graph-shell { padding: 42px clamp(22px, 6.2vw, 96px) 78px; }
+.grade-section, .catalog-section { padding: 42px clamp(22px, 6.2vw, 96px) 78px; }
 .toolbar { display: flex; justify-content: space-between; align-items: flex-end; gap: 25px; margin-bottom: 24px; }
-.toolbar h2, .graph-intro h2 { font-size: 28px; line-height: 1.15; letter-spacing: -.035em; margin: 0; }
+.toolbar h2 { font-size: 28px; line-height: 1.15; letter-spacing: -.035em; margin: 0; }
 .legend { display: flex; align-items: center; gap: 17px; flex-wrap: wrap; justify-content: flex-end; }
-.legend span, .graph-legend span { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; white-space: nowrap; }
-.legend i, .graph-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; white-space: nowrap; }
+.legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
 .legend b { font-weight: 700; color: var(--ink); }
 .legend-paid { background: var(--purple); }.legend-planned { background: var(--amber); }.legend-prereq { background: var(--blue); }.legend-coreq { background: var(--red); }.legend-unlocks { background: var(--unlock); }
 .toolbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 16px; flex-wrap: wrap; }
@@ -143,32 +143,6 @@ tbody tr:hover { background: #f5f6f7; }
 .type-pill.mandatory { color: #426a7e; background: var(--blue-soft); }.type-pill.optional { color: #665b78; background: var(--purple-soft); }
 .empty-results { padding: 70px; text-align: center; color: var(--muted); }.empty-results strong { color: var(--ink); }
 
-.graph-shell { max-width: 1500px; margin: auto; }
-.graph-intro { display: flex; justify-content: space-between; gap: 35px; align-items: flex-end; margin-bottom: 30px; }
-.graph-intro p { margin: 10px 0 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
-.graph-legend { display: flex; gap: 16px; }
-.graph-legend i { background: var(--blue); border-radius: 50%; }
-.graph-legend .corequisite-dot { background: var(--red); }
-.graph-controls { display: grid; grid-template-columns: minmax(220px, 420px) 1fr auto; align-items: center; gap: 16px; margin-bottom: 18px; }
-.graph-controls > span { color: var(--muted); font-size: 15px; font-weight: 500; }
-.graph-controls > button { border: 1px solid var(--line); background: var(--white); color: var(--accent); border-radius: 8px; padding: 10px 13px; cursor: pointer; font-size: 13px; font-weight: 700; }
-.graph-search { height: 46px; display: flex; align-items: center; border: 1px solid var(--line); border-radius: 11px; padding: 0 14px; background: var(--white); transition: border-color .18s, box-shadow .18s; }
-.graph-search:focus-within { border-color: #aeb6b2; box-shadow: 0 0 0 3px rgba(37,49,46,.07); }
-.graph-search svg { flex: 0 0 auto; width: 20px; height: 20px; color: #7b8581; }
-.graph-search input { width: 100%; border: 0; outline: 0; background: transparent; padding-left: 11px; font-size: 14px; font-weight: 400; color: var(--ink); }
-.graph-canvas { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); align-items: stretch; gap: 18px; min-height: 260px; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.35); }
-.graph-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 0; }
-.graph-lines > path { fill: none; stroke: rgba(76,120,144,.78); stroke-width: 1.7; }
-.graph-lines > path.corequisite { stroke: rgba(170,98,92,.82); stroke-dasharray: 5 4; }
-.graph-lines marker path { fill: var(--blue); }
-.graph-node { position: relative; z-index: 1; min-width: 0; min-height: 96px; padding: 14px; text-align: left; border: 1px solid var(--line); background: var(--white); border-radius: 10px; cursor: pointer; box-shadow: 0 5px 18px rgba(38,60,52,.06); transition: transform .18s, border-color .18s, box-shadow .18s; }
-.graph-node:hover { transform: translateY(-2px); border-color: var(--blue); }
-.graph-node.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(53,103,124,.14), 0 9px 25px rgba(38,60,52,.1); }
-.graph-node span { display: block; color: var(--accent); font-family: var(--font-geist-mono), monospace; font-size: 11px; margin-bottom: 7px; }
-.graph-node strong { display: block; font-size: 14px; line-height: 1.3; }
-.graph-node small { display: block; color: var(--muted); font-size: 11px; line-height: 1.35; margin-top: 9px; }
-.graph-empty { color: var(--muted); grid-column: 1 / -1; text-align: center; align-self: center; }
-
 .modal-backdrop { position: fixed; inset: 0; background: rgba(22,31,29,.58); z-index: 100; display: grid; place-items: center; padding: 24px; backdrop-filter: blur(6px); animation: fadeIn .16s ease; }
 @keyframes fadeIn { from { opacity: 0; } }
 .detail-modal { width: min(680px, 100%); max-height: calc(100vh - 48px); max-height: calc(100dvh - 48px); overflow: hidden; display: flex; flex-direction: column; background: transparent; border: 0; border-radius: 22px; box-shadow: var(--shadow); position: relative; isolation: isolate; animation: rise .18s ease; }
@@ -219,12 +193,11 @@ tbody tr:hover { background: #f5f6f7; }
 @media (max-width: 799px) {
   .site-header { height: 66px; grid-template-columns: 1fr auto; padding: 0 18px; }.desktop-nav { display: none; }.brand-logo { width: 40px; height: 40px; }.brand strong { font-size: 14px; }.brand small { font-size: 8px; }.github-link { width: 36px; height: 36px; }.github-link img { width: 26px; height: 26px; }
   .mobile-tabs { display: flex; position: sticky; top: 66px; z-index: 29; overflow-x: auto; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--line); padding: 0 12px; scrollbar-width: none; backdrop-filter: blur(12px); }.mobile-tabs::-webkit-scrollbar { display: none; }.mobile-tabs button { flex: 1 0 auto; min-width: max-content; padding: 14px 10px 12px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--muted); font-size: 10px; font-weight: 700; }.mobile-tabs button.active { color: var(--accent); border-color: var(--accent); font-weight: 800; }
-  .grade-section, .catalog-section, .graph-shell { padding: 28px 18px 52px; }.toolbar, .graph-intro { align-items: flex-start; flex-direction: column; }.toolbar h2, .graph-intro h2 { font-size: 24px; }.toolbar-actions { align-items: flex-start; justify-content: flex-start; }.legend { justify-content: flex-start; gap: 12px; }
+  .grade-section, .catalog-section { padding: 28px 18px 52px; }.toolbar { align-items: flex-start; flex-direction: column; }.toolbar h2 { font-size: 24px; }.toolbar-actions { align-items: flex-start; justify-content: flex-start; }.legend { justify-content: flex-start; gap: 12px; }
   .curriculum-scroll { margin: 0 -18px; padding: 5px 18px 22px; scroll-snap-type: x proximity; }.curriculum-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 28vw; gap: 6px; }.period-column { scroll-snap-align: start; }.period-column > header { padding: 8px 6px 6px; }.period-column h3 { font-size: 10px; }.period-cards { gap: 5px; }.course-card { height: auto; min-height: 55px; max-height: none; padding: 5px 6px 6px; border-radius: 6px; }.course-card.paid, .course-card.planned { padding-bottom: 14px; }.course-card-top { min-height: 14px; }.course-card h3 { display: block; margin-top: 2px; overflow: visible; overflow-wrap: anywhere; font-size: 8px; line-height: 1.15; -webkit-line-clamp: unset; }.course-code { font-size: 7px; letter-spacing: .04em; }.more-button { width: 18px; height: 16px; gap: 1px; border-radius: 4px; position: relative; }.more-button::after { content: ""; position: absolute; inset: -5px; }.more-button span { width: 2px; height: 2px; }.status-chip { right: 5px; bottom: 3px; font-size: 6px; letter-spacing: .05em; }
   .catalog-toolbar { grid-template-columns: 1fr; padding: 13px; gap: 10px; }.sections-toolbar { padding: 13px; }.search-control { grid-column: auto; }.clear-filters { width: 100%; }.results-count { margin-top: 20px; }
   .table-wrap { overflow: visible; border: 0; background: transparent; }.table-wrap table, .table-wrap tbody { display: block; min-width: 0; }.table-wrap thead { display: none; }.table-wrap tbody { display: grid; gap: 12px; }.table-wrap tbody tr { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; padding: 15px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); box-shadow: 0 5px 18px rgba(38,60,52,.04); }.table-wrap td { display: flex; flex-direction: column; gap: 4px; padding: 7px 0; border: 0; }.table-wrap td::before { content: attr(data-label); color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }.table-wrap td[data-label="Disciplina"] { grid-column: 1 / -1; order: -1; padding-bottom: 12px; border-bottom: 1px solid #eceee8; }.table-wrap td[data-label="Disciplina"]::before { display: none; }.table-wrap td[data-label="Trilha"] { grid-column: 1 / -1; }.course-name-button strong { font-size: 15px; line-height: 1.35; }.course-name-button small { white-space: normal; margin-top: 5px; }
   .sections-section .schedule-column { width: auto; min-width: 0; }
-  .graph-intro { margin-bottom: 22px; }.graph-legend { flex-wrap: wrap; }.graph-controls { grid-template-columns: 1fr auto; gap: 10px; }.graph-search { grid-column: 1 / -1; }.graph-controls > span { font-size: 14px; }.graph-canvas { grid-template-columns: 1fr; gap: 14px; padding: 14px; }.graph-node { min-height: 88px; }.graph-lines { opacity: .55; }
   .detail-grid { grid-template-columns: 1fr; gap: 0; }.modal-backdrop { height: 100dvh; max-height: 100dvh; overflow: hidden; padding: 0; place-items: start center; }.detail-modal { height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; border-radius: 0; }.close-button { top: calc(17px + env(safe-area-inset-top)); }.modal-heading { padding: calc(26px + env(safe-area-inset-top)) 58px 22px 22px; border-radius: 0; }.modal-heading h2 { font-size: 23px; }.modal-content { padding: 22px 22px calc(22px + env(safe-area-inset-bottom)); border-radius: 0; }.requirement-section li, .requirement-section button { font-size: 12px; }
 }
 

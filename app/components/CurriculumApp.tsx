@@ -7,7 +7,6 @@ import { useCurriculumData } from "./application/use-curriculum-data";
 import { useNavigation, type Tab } from "./application/use-navigation";
 import { CatalogView } from "./catalog/CatalogView";
 import { useCatalog } from "./catalog/use-catalog";
-import { DependencyGraph } from "./graph/DependencyGraph";
 import type { CourseRelation } from "./grade/CourseCard";
 import { GradeView } from "./grade/GradeView";
 import { usePlanning } from "./grade/use-planning";
@@ -98,9 +97,6 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
         )}
         {isReady && navigation.tab === "disciplinas" && (
           <CatalogView {...catalog} onOpen={navigation.openCourse} />
-        )}
-        {isReady && navigation.tab === "grafo" && (
-          <DependencyGraph courses={data.courses} onOpen={navigation.openCourse} />
         )}
         {isReady && navigation.tab === "turmas" && (
           <SectionsView {...sections} courses={data.courses} onOpen={openSectionCourse} />

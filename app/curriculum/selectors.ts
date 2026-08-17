@@ -1,4 +1,4 @@
-import type { Course, CurriculumData, Section } from "./types";
+import type { Course, CurriculumData } from "./types";
 
 function canonical(code: string | undefined) {
   return (code ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "");

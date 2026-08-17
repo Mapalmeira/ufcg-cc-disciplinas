@@ -2,13 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import type { Course } from "../../curriculum/types";
 import { canonical } from "../shared/utils";
 
-export type Tab = "grade" | "disciplinas" | "grafo" | "turmas";
+export type Tab = "grade" | "disciplinas" | "turmas";
 
 export const tabs: { id: Tab; label: string }[] = [
   { id: "grade", label: "Grade curricular" },
   { id: "disciplinas", label: "Disciplinas" },
   { id: "turmas", label: "Turmas" },
-  { id: "grafo", label: "Dependências" },
 ];
 
 const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");

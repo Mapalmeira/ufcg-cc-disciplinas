@@ -2,7 +2,7 @@
 import { createCurriculumData } from "../curriculum-data.ts";
 import type { LoadAction } from "./load-action.ts";
 import { fetchCsv } from "./source-fetch.ts";
-import type { Course, CurriculumData, Section } from "../types.ts";
+import type { CurriculumData, Section } from "../types.ts";
 
 /** Loads class sections and enriches courses that already exist. */
 export class ApplyClassesCsv implements LoadAction {
