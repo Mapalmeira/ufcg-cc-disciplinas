@@ -8,9 +8,9 @@ The public spreadsheets are read through the Google Visualization endpoint as CS
 
 ## Official data sources
 
-- [PPC 2023 course catalog](https://github.com/daltonserey/ppc-2023-em-dados/blob/master/dados/disciplinas.json): syllabus, hours, credits, and responsible academic units.
-- [PPC 2023 curriculum matrix](https://docs.google.com/spreadsheets/d/1eMhue4891tuD8pUGYlB2fWpWXDtbGE2IEyNEgy28pHM/edit): period, category, tracks, prerequisites, and corequisites.
-- [2026.2 class schedule](https://docs.google.com/spreadsheets/d/10kUHJNiyvzLC20LcIwiTdkDXkbAEy9mPUvr8gzwo688/edit): sections, instructors and rooms.
+- [PPC 2023 course json](https://github.com/daltonserey/ppc-2023-em-dados/blob/master/dados/disciplinas.json): syllabus, hours, credits, and responsible academic units.
+- [PPC 2023 curriculum sheet](https://docs.google.com/spreadsheets/d/1eMhue4891tuD8pUGYlB2fWpWXDtbGE2IEyNEgy28pHM/edit): period, category, tracks, prerequisites, and corequisites.
+- [2026.2 class schedule sheet](https://docs.google.com/spreadsheets/d/10kUHJNiyvzLC20LcIwiTdkDXkbAEy9mPUvr8gzwo688/edit): sections, instructors and rooms.
 
 > Note: this project was developed with large language models (LLMs).
 
