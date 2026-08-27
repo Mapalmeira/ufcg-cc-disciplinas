@@ -179,7 +179,7 @@ tbody tr:hover { background: #f5f6f7; }
 .requirement-section button { padding: 0; border: 0; background: transparent; color: inherit; font-size: 14px; font-weight: 700; line-height: 1.5; cursor: pointer; text-align: left; }
 .requirement-section button:hover, .requirement-section button:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; outline: none; }
 .requirement-section li > strong { font-weight: 700; }
-.prerequisite-section { background: var(--blue-soft); border-color: #b9cbd4; border-left-color: var(--blue); }.prerequisite-section h3 { color: #476979; }
+.prerequisite-section { background: var(--blue-soft); border-color: #b9cbd4; border-left-color: var(--blue); }.prerequisite-section h3, .prerequisite-section button, .prerequisite-section li > strong { color: #476979; }
 .corequisite-section { background: var(--red-soft); border-color: #dec9c6; border-left-color: var(--red); }.corequisite-section h3 { color: #8a504b; }
 .unlock-section { background: var(--unlock-soft); border-color: #c7d7ce; border-left-color: var(--unlock); }.unlock-section h3 { color: #4e6f5d; }
 .unlock-section button { color: #456754; }
