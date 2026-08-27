@@ -38,7 +38,7 @@ export function DetailModal({ course, coursesByCode, directDependents, indirectD
         <section className="detail-section"><h3>Ementa</h3><p className="syllabus">{course.syllabus ?? "Ementa não informada."}</p></section>
         <div className="detail-grid"><section className="detail-section requirement-section prerequisite-section"><h3>Pré-requisitos</h3>{renderCourseList(course.prerequisites ?? [], "Nenhum")}</section><section className="detail-section requirement-section corequisite-section"><h3>Co-requisitos</h3>{renderCourseList(course.corequisites ?? [], "Nenhum")}</section></div>
         <section className="detail-section requirement-section unlock-section"><h3>Libera diretamente</h3>{renderCourseList(directDependents, "Nenhuma")}</section>
-        <section className="detail-section requirement-section reachability-section"><h3>Permite alcançar</h3>{renderCourseList(indirectDependents, "Nenhuma")}</section>
+        <section className="detail-section requirement-section reachability-section"><h3>Necessário para</h3>{renderCourseList(indirectDependents, "Nenhuma")}</section>
       </div>
     </section>
   </div>;
