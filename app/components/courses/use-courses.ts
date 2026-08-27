@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import { isVisibleCourse } from "../../curriculum/course-utils";
+import { compareLocalized, normalizeSearchText } from "../../curriculum/search-utils";
 import type { Course } from "../../curriculum/types";
 import type { CourseSortKey } from "./CoursesTable";
-import { formatCategory, plain, splitTracks } from "../shared/utils";
+import { formatCategory, splitTracks } from "../shared/utils";
 
 function queryParameter(name: string) {
   return typeof window === "undefined"
@@ -10,7 +11,17 @@ function queryParameter(name: string) {
     : new URL(window.location.href).searchParams.get(name) ?? "";
 }
 
-export function useCourses(coursesByCode: Readonly<Record<string, Course>>, activeTab: string) {
+function sortValue(course: Course, key: CourseSortKey) {
+  if (key === "tracks") return splitTracks(course.tracks).join(" ");
+  if (key === "name") return course.names?.[0];
+  return course[key];
+}
+
+export function useCourses(
+  coursesByCode: Readonly<Record<string, Course>>,
+  searchTextByCode: ReadonlyMap<string, string>,
+  activeTab: string,
+) {
   const [search, setSearch] = useState(() => queryParameter("search"));
   const [track, setTrack] = useState(() => queryParameter("track"));
   const [category, setCategory] = useState(() => queryParameter("category"));
@@ -35,38 +46,37 @@ export function useCourses(coursesByCode: Readonly<Record<string, Course>>, acti
   const categories = useMemo(
     () => [...new Set(availableCourses.map((course) => course.category).filter(
       (value): value is string => value !== undefined,
-    ))].sort((a, b) => formatCategory(a).localeCompare(formatCategory(b), "pt-BR")),
+    ))].sort((a, b) => compareLocalized(formatCategory(a), formatCategory(b))),
     [availableCourses],
   );
 
-  const filtered = useMemo(() => {
-    const query = plain(search.trim());
+  const sorted = useMemo(
+    () => availableCourses
+      .map((course) => ({ course, value: sortValue(course, sortKey) }))
+      .sort((a, b) => {
+        const result = typeof a.value === "number" && typeof b.value === "number"
+          ? a.value - b.value
+          : compareLocalized(a.value, b.value);
+        return sortDirection === "asc" ? result : -result;
+      })
+      .map(({ course }) => course),
+    [availableCourses, sortDirection, sortKey],
+  );
 
-    return availableCourses
+  const filtered = useMemo(() => {
+    const query = normalizeSearchText(search.trim());
+
+    return sorted
       .filter((course) => {
         const courseTracks = splitTracks(course.tracks);
         const matchesTrack = !track
           || (track === "Sem trilha" ? courseTracks.length === 0 : courseTracks.includes(track));
-        const text = `${course.code ?? ""} ${(course.names ?? []).join(" ")} ${(course.mnemonics ?? []).join(" ")}`;
 
-        return (!query || plain(text).includes(query))
+        return (!query || searchTextByCode.get(course.code ?? "")?.includes(query))
           && matchesTrack
           && (!category || course.category === category);
-      })
-      .sort((a, b) => {
-        const left = sortKey === "tracks"
-          ? splitTracks(a.tracks).join(" ")
-          : sortKey === "name" ? a.names?.[0] : a[sortKey];
-        const right = sortKey === "tracks"
-          ? splitTracks(b.tracks).join(" ")
-          : sortKey === "name" ? b.names?.[0] : b[sortKey];
-        const result = typeof left === "number" && typeof right === "number"
-          ? left - right
-          : String(left).localeCompare(String(right), "pt-BR", { numeric: true });
-
-        return sortDirection === "asc" ? result : -result;
       });
-  }, [availableCourses, category, search, sortDirection, sortKey, track]);
+  }, [category, search, searchTextByCode, sorted, track]);
 
   const updateFiltersUrl = (nextSearch: string, nextTrack: string, nextCategory: string) => {
     if (activeTab !== "courses") return;

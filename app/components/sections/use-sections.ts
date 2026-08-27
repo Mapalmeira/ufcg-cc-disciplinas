@@ -1,38 +1,43 @@
 import { useMemo, useState } from "react";
 import { isVisibleCourse } from "../../curriculum/course-utils";
+import { compareLocalized, normalizeSearchText } from "../../curriculum/search-utils";
 import type { Course, Section } from "../../curriculum/types";
 import type { SectionSortKey } from "./SectionsTable";
-import { plain } from "../shared/utils";
 
-export function useSections(sectionsByKey: Readonly<Record<string, Section>>, coursesByCode: Readonly<Record<string, Course>>) {
+function sortValue(section: Section, key: SectionSortKey, coursesByCode: Readonly<Record<string, Course>>) {
+  const course = coursesByCode[section.course_code ?? ""];
+  if (key === "course") return course?.names?.[0] ?? "";
+  if (key === "mnemonic") return course?.mnemonics?.join(" ") ?? "";
+  return section[key] ?? "";
+}
+
+export function useSections(
+  sectionsByKey: Readonly<Record<string, Section>>,
+  coursesByCode: Readonly<Record<string, Course>>,
+  searchTextByKey: ReadonlyMap<string, string>,
+) {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SectionSortKey>("course");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-  const filtered = useMemo(() => {
-    const query = plain(search);
-    const value = (section: Section, key: SectionSortKey) => {
-      const course = coursesByCode[section.course_code ?? ""];
-      if (key === "course") return course?.names?.[0] ?? "";
-      if (key === "mnemonic") return course?.mnemonics?.join(" ") ?? "";
-      return section[key] ?? "";
-    };
-
-    return Object.values(sectionsByKey)
-      .filter((section) => {
-        const course = coursesByCode[section.course_code ?? ""];
-        return isVisibleCourse(course);
-      })
-      .filter((section) => {
-        const course = coursesByCode[section.course_code ?? ""];
-        const text = `${section.professor ?? ""} ${section.professor_mnemonic ?? ""} ${section.course_code ?? ""} ${(course?.names ?? []).join(" ")} ${(course?.mnemonics ?? []).join(" ")}`;
-        return !query || plain(text).includes(query);
-      })
+  const sorted = useMemo(
+    () => Object.entries(sectionsByKey)
+      .filter(([, section]) => isVisibleCourse(coursesByCode[section.course_code ?? ""]))
+      .map(([key, section]) => ({ key, section, value: sortValue(section, sortKey, coursesByCode) }))
       .sort((a, b) => {
-        const result = String(value(a, sortKey)).localeCompare(String(value(b, sortKey)), "pt-BR", { numeric: true });
+        const result = compareLocalized(a.value, b.value);
         return sortDirection === "asc" ? result : -result;
-      });
-  }, [coursesByCode, search, sectionsByKey, sortDirection, sortKey]);
+      })
+      .map(({ key, section }) => ({ key, section })),
+    [coursesByCode, sectionsByKey, sortDirection, sortKey],
+  );
+
+  const filtered = useMemo(() => {
+    const query = normalizeSearchText(search);
+    return sorted
+      .filter(({ key }) => !query || searchTextByKey.get(key)?.includes(query))
+      .map(({ section }) => section);
+  }, [search, searchTextByKey, sorted]);
 
   const sort = (key: SectionSortKey) => {
     if (sortKey === key) {

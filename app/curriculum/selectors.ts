@@ -1,5 +1,6 @@
-import type { Course } from "./types";
+import type { Course, CurriculumData } from "./types";
 import { isVisibleCourse } from "./course-utils.ts";
+import { normalizeSearchText } from "./search-utils.ts";
 
 export function directDependentsIndex(courses: Course[]) {
   const result = new Map<string, string[]>();
@@ -58,5 +59,36 @@ export function buildDependencyIndexes(coursesByCode: Readonly<Record<string, Co
     if (indirectCodes.length) indirectDependentsByCode.set(code, indirectCodes);
   }
 
-  return { directDependentsByCode, indirectDependentsByCode };
+  return { directDependentsByCode, indirectDependentsByCode, hasVisibleCourses: courses.length > 0 };
+}
+
+export function buildSearchTextIndexes(data: CurriculumData) {
+  const courseSearchTextByCode = new Map<string, string>();
+  const sectionSearchTextByKey = new Map<string, string>();
+
+  for (const course of Object.values(data.courses)) {
+    if (!isVisibleCourse(course)) continue;
+
+    courseSearchTextByCode.set(course.code, normalizeSearchText(
+      `${course.code} ${(course.names ?? []).join(" ")} ${(course.mnemonics ?? []).join(" ")}`,
+    ));
+  }
+
+  for (const [key, section] of Object.entries(data.sections)) {
+    const course = data.courses[section.course_code ?? ""];
+    if (!isVisibleCourse(course)) continue;
+
+    sectionSearchTextByKey.set(key, normalizeSearchText(
+      `${section.professor ?? ""} ${section.professor_mnemonic ?? ""} ${section.course_code ?? ""} ${(course.names ?? []).join(" ")} ${(course.mnemonics ?? []).join(" ")}`,
+    ));
+  }
+
+  return { courseSearchTextByCode, sectionSearchTextByKey };
+}
+
+export function buildCurriculumIndexes(data: CurriculumData) {
+  return {
+    ...buildDependencyIndexes(data.courses),
+    ...buildSearchTextIndexes(data),
+  };
 }

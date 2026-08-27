@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { loadData } from "../../curriculum";
-import { isVisibleCourse } from "../../curriculum/course-utils";
-import { buildDependencyIndexes } from "../../curriculum/selectors";
+import { buildCurriculumIndexes } from "../../curriculum/selectors";
 import type { CurriculumData } from "../../curriculum/types";
 
 const emptyData: CurriculumData = { courses: {}, sections: {} };
 const emptyIndexes = {
   directDependentsByCode: new Map<string, string[]>(),
   indirectDependentsByCode: new Map<string, string[]>(),
+  courseSearchTextByCode: new Map<string, string>(),
+  sectionSearchTextByKey: new Map<string, string>(),
+  hasVisibleCourses: false,
 };
 
 export function useCurriculumData() {
@@ -18,7 +20,6 @@ export function useCurriculumData() {
   useEffect(() => {
     loadData()
       .then((data) => {
-        console.log("Dados curriculares:", data);
         setData(data);
       })
       .catch(() => setError("Não foi possível carregar os dados agora. Tente atualizar a página em alguns instantes."))
@@ -26,10 +27,10 @@ export function useCurriculumData() {
   }, []);
 
   const indexes = useMemo(
-    () => data === emptyData ? emptyIndexes : buildDependencyIndexes(data.courses),
+    () => data === emptyData ? emptyIndexes : buildCurriculumIndexes(data),
     [data],
   );
-  const emptyError = !loading && !Object.values(data.courses).some(isVisibleCourse)
+  const emptyError = !loading && !indexes.hasVisibleCourses
     ? "As fontes responderam, mas não encontramos disciplinas na aba grade2023."
     : "";
 

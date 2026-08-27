@@ -17,8 +17,8 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
   const curriculum = useCurriculumData();
   const navigation = useNavigation(initialTab, curriculum.data.courses);
   const planning = usePlanning();
-  const courses = useCourses(curriculum.data.courses, navigation.tab);
-  const sections = useSections(curriculum.data.sections, curriculum.data.courses);
+  const courses = useCourses(curriculum.data.courses, curriculum.courseSearchTextByCode, navigation.tab);
+  const sections = useSections(curriculum.data.sections, curriculum.data.courses, curriculum.sectionSearchTextByKey);
   const [hovered, setHovered] = useState<Course | null>(null);
 
   const hoveredPrerequisites = useMemo(

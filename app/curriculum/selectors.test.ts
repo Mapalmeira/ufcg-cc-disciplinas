@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildDependencyIndexes, directDependentsIndex, reachableCourseCodesIndex } from "./selectors.ts";
-import type { Course } from "./types.ts";
+import { buildDependencyIndexes, buildSearchTextIndexes, directDependentsIndex, reachableCourseCodesIndex } from "./selectors.ts";
+import type { Course, CurriculumData } from "./types.ts";
 
 test("indexes direct dependents by prerequisite code", () => {
   const courses: Course[] = [
@@ -98,4 +98,29 @@ test("dependency cycles terminate without making a course reachable from itself"
 
   assert.deepEqual(indirectDependentsByCode.get("100"), ["300"]);
   assert.equal(indirectDependentsByCode.get("100")?.includes("100"), false);
+});
+
+test("builds normalized search text indexes for courses and sections", () => {
+  const data: CurriculumData = {
+    courses: {
+      "100": { code: "100", names: ["Programação Básica"], mnemonics: ["PB"] },
+      "200": { code: "200", names: ["Curso ignorado"], ignored: true },
+    },
+    sections: {
+      "100:01": { course_code: "100", section: "01", professor: "José Álvares", professor_mnemonic: "JA" },
+      "200:01": { course_code: "200", section: "01", professor: "Ignorado" },
+    },
+  };
+
+  const { courseSearchTextByCode, sectionSearchTextByKey } = buildSearchTextIndexes(data);
+
+  assert.equal(courseSearchTextByCode.get("100"), "100 programacao basica pb");
+  assert.equal(sectionSearchTextByKey.get("100:01"), "jose alvares ja 100 programacao basica pb");
+  assert.equal(courseSearchTextByCode.has("200"), false);
+  assert.equal(sectionSearchTextByKey.has("200:01"), false);
+});
+
+test("dependency indexes report whether visible courses exist without another scan", () => {
+  assert.equal(buildDependencyIndexes({ hidden: { code: "100", ignored: true } }).hasVisibleCourses, false);
+  assert.equal(buildDependencyIndexes({ "100": { code: "100" } }).hasVisibleCourses, true);
 });
