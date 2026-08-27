@@ -2,12 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
 
-export type Tab = "grade" | "disciplinas" | "turmas";
+export type Tab = "grade" | "courses" | "sections";
 
 export const tabs: { id: Tab; label: string }[] = [
   { id: "grade", label: "Grade curricular" },
-  { id: "disciplinas", label: "Disciplinas" },
-  { id: "turmas", label: "Turmas" },
+  { id: "courses", label: "Disciplinas" },
+  { id: "sections", label: "Turmas" },
 ];
 
 const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");

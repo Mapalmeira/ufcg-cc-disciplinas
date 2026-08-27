@@ -69,7 +69,7 @@ export function useCourses(coursesByCode: Readonly<Record<string, Course>>, acti
   }, [catalog, category, search, sortDirection, sortKey, track]);
 
   const updateFiltersUrl = (nextSearch: string, nextTrack: string, nextCategory: string) => {
-    if (activeTab !== "disciplinas") return;
+    if (activeTab !== "courses") return;
 
     const url = new URL(window.location.href);
     const values = [["busca", nextSearch], ["trilha", nextTrack], ["categoria", nextCategory]];

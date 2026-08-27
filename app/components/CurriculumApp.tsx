@@ -93,10 +93,10 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
             onClear={planning.clearPlanning}
           />
         )}
-        {isReady && navigation.tab === "disciplinas" && (
+        {isReady && navigation.tab === "courses" && (
           <CatalogView {...courses} onOpen={navigation.openCourse} />
         )}
-        {isReady && navigation.tab === "turmas" && (
+        {isReady && navigation.tab === "sections" && (
           <SectionsView {...sections} coursesByCode={curriculum.data.courses} onOpen={openSectionCourse} />
         )}
       </main>
