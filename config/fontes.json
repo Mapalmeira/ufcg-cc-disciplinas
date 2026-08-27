@@ -5,11 +5,11 @@
       "url": "https://raw.githubusercontent.com/daltonserey/ppc-2023-em-dados/refs/heads/master/dados/disciplinas.json"
     },
     {
-      "type": "course_csv",
+      "type": "courses_csv",
       "url": "https://docs.google.com/spreadsheets/d/1eMhue4891tuD8pUGYlB2fWpWXDtbGE2IEyNEgy28pHM/gviz/tq?tqx=out:csv&sheet=grade2023&range=A:Z&headers=1"
     },
     {
-      "type": "classes_csv",
+      "type": "sections_csv",
       "url": "https://docs.google.com/spreadsheets/d/10kUHJNiyvzLC20LcIwiTdkDXkbAEy9mPUvr8gzwo688/gviz/tq?tqx=out:csv&sheet=2026.2&range=A:Z&headers=1"
     },
     {

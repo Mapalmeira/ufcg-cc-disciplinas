@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
 
-export type Tab = "grade" | "courses" | "sections";
+export type Tab = "curriculum" | "courses" | "sections";
 
 export const tabs: { id: Tab; label: string }[] = [
-  { id: "grade", label: "Grade curricular" },
+  { id: "curriculum", label: "Grade curricular" },
   { id: "courses", label: "Disciplinas" },
   { id: "sections", label: "Turmas" },
 ];

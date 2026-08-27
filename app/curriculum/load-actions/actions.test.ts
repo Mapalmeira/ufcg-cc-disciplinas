@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { parseLoadActions } from "./index.ts";
 import { ApplyAction } from "./apply-action.ts";
-import { ApplyClassesCsv } from "./classes-csv-action.ts";
-import { ApplyCourseCsv } from "./course-csv-action.ts";
+import { ApplyCoursesCsv } from "./courses-csv-action.ts";
 import { applyStructure, createCurriculumData } from "../curriculum-data.ts";
 import { ApplyPpcJson } from "./ppc-json-action.ts";
+import { ApplySectionsCsv } from "./sections-csv-action.ts";
 
 function dataUrl(type: string, content: string) {
   return `data:${type},${encodeURIComponent(content)}`;
@@ -17,11 +17,11 @@ test("parses and resolves ordered curriculum load actions", async () => {
     nome: "Nome JSON",
     ementa: "Ementa do PPC",
   }]));
-  const courseUrl = dataUrl("text/csv", [
+  const coursesUrl = dataUrl("text/csv", [
     "trilhas,disciplina,horas,codigo,corr,tipo,creditos,reqs,periodo,ordem",
     "Dados,Nome CSV,60,1411111,,opt,4,,3,",
   ].join("\n"));
-  const classesUrl = dataUrl("text/csv", [
+  const sectionsUrl = dataUrl("text/csv", [
     "vagas,prof.fullname,aulas SIGAA,sigla,codigo,capacidade,local,nturma,professor,disciplina",
     "28,Professora Teste,24M12,MN,1411111,30,CAA-101,01,prof,Nome CSV",
     "18,Professor Órfão,24M34,ORPHAN,9999999,20,CAA-102,01,prof,Curso inexistente",
@@ -29,8 +29,8 @@ test("parses and resolves ordered curriculum load actions", async () => {
 
   const actions = parseLoadActions([
     { type: "ppc_json", url: ppcUrl },
-    { type: "course_csv", url: courseUrl },
-    { type: "classes_csv", url: classesUrl },
+    { type: "courses_csv", url: coursesUrl },
+    { type: "sections_csv", url: sectionsUrl },
     {
       type: "apply",
       structure: {
@@ -41,8 +41,8 @@ test("parses and resolves ordered curriculum load actions", async () => {
   ], structure, { "Nome JSON": ["1411111"] });
 
   assert.ok(actions[0] instanceof ApplyPpcJson);
-  assert.ok(actions[1] instanceof ApplyCourseCsv);
-  assert.ok(actions[2] instanceof ApplyClassesCsv);
+  assert.ok(actions[1] instanceof ApplyCoursesCsv);
+  assert.ok(actions[2] instanceof ApplySectionsCsv);
   assert.ok(actions[3] instanceof ApplyAction);
 
   for (const action of actions) {

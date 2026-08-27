@@ -4,7 +4,7 @@ import { CourseCard } from "./CourseCard";
 import type { CourseRelation, PlanningStatus } from "./CourseCard";
 import { formatPeriod } from "../shared/utils";
 
-export function GradeView({ coursesByCode, statuses, relationFor, hovered, onCycle, onOpen, onHover, onClear }: {
+export function CurriculumView({ coursesByCode, statuses, relationFor, hovered, onCycle, onOpen, onHover, onClear }: {
   coursesByCode: Readonly<Record<string, Course>>;
   statuses: Record<string, PlanningStatus>;
   relationFor: (course: Course) => CourseRelation | undefined;
@@ -23,12 +23,12 @@ export function GradeView({ coursesByCode, statuses, relationFor, hovered, onCyc
   const hasPlanning = Object.keys(statuses).length > 0;
 
   return (
-    <section className="grade-section">
+    <section className="curriculum-section">
       <div className="toolbar">
         <div><span className="section-kicker">MATRIZ CURRICULAR</span><h2>Disciplinas por período</h2></div>
         <div className="toolbar-actions">
           <div className="legend"><span><i className="legend-paid" /> Paguei</span><span><i className="legend-planned" /> Quero pagar</span><span><i className="legend-prereq" /> Pré-requisito</span><span><i className="legend-coreq" /> Co-requisito</span><span><i className="legend-unlocks" /> Libera</span></div>
-          <button className="clear-grade" onClick={onClear} disabled={!hasPlanning}>Limpar planejamento</button>
+          <button className="clear-planning" onClick={onClear} disabled={!hasPlanning}>Limpar planejamento</button>
         </div>
       </div>
       <div className="curriculum-scroll"><div className="curriculum-grid">

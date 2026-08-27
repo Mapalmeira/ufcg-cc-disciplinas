@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
-import type { CourseSortKey } from "./CatalogTable";
+import type { CourseSortKey } from "./CoursesTable";
 import { formatCategory, plain, splitTracks } from "../shared/utils";
 
 function queryParameter(name: string) {
@@ -17,7 +17,7 @@ export function useCourses(coursesByCode: Readonly<Record<string, Course>>, acti
   const [sortKey, setSortKey] = useState<CourseSortKey>("code");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-  const catalog = useMemo(
+  const availableCourses = useMemo(
     () => Object.values(coursesByCode)
       .filter(isVisibleCourse)
       .filter((course) => course.category !== "slot_optativa"),
@@ -25,24 +25,24 @@ export function useCourses(coursesByCode: Readonly<Record<string, Course>>, acti
   );
 
   const tracks = useMemo(() => {
-    const available = new Set(catalog.flatMap((course) => splitTracks(course.tracks)));
-    if (catalog.some((course) => splitTracks(course.tracks).length === 0)) {
+    const available = new Set(availableCourses.flatMap((course) => splitTracks(course.tracks)));
+    if (availableCourses.some((course) => splitTracks(course.tracks).length === 0)) {
       available.add("Sem trilha");
     }
     return [...available];
-  }, [catalog]);
+  }, [availableCourses]);
 
   const categories = useMemo(
-    () => [...new Set(catalog.map((course) => course.category).filter(
+    () => [...new Set(availableCourses.map((course) => course.category).filter(
       (value): value is string => value !== undefined,
     ))].sort((a, b) => formatCategory(a).localeCompare(formatCategory(b), "pt-BR")),
-    [catalog],
+    [availableCourses],
   );
 
   const filtered = useMemo(() => {
     const query = plain(search.trim());
 
-    return catalog
+    return availableCourses
       .filter((course) => {
         const courseTracks = splitTracks(course.tracks);
         const matchesTrack = !track
@@ -66,7 +66,7 @@ export function useCourses(coursesByCode: Readonly<Record<string, Course>>, acti
 
         return sortDirection === "asc" ? result : -result;
       });
-  }, [catalog, category, search, sortDirection, sortKey, track]);
+  }, [availableCourses, category, search, sortDirection, sortKey, track]);
 
   const updateFiltersUrl = (nextSearch: string, nextTrack: string, nextCategory: string) => {
     if (activeTab !== "courses") return;

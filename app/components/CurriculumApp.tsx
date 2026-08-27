@@ -4,11 +4,11 @@ import { useMemo, useState } from "react";
 import type { Course } from "../curriculum/types";
 import { useCurriculumData } from "./application/use-curriculum-data";
 import { useNavigation, type Tab } from "./application/use-navigation";
-import { CatalogView } from "./catalog/CatalogView";
-import { useCourses } from "./catalog/use-courses";
-import type { CourseRelation } from "./grade/CourseCard";
-import { GradeView } from "./grade/GradeView";
-import { usePlanning } from "./grade/use-planning";
+import { CoursesView } from "./courses/CoursesView";
+import { useCourses } from "./courses/use-courses";
+import type { CourseRelation } from "./curriculum/CourseCard";
+import { CurriculumView } from "./curriculum/CurriculumView";
+import { usePlanning } from "./curriculum/use-planning";
 import { SectionsView } from "./sections/SectionsView";
 import { useSections } from "./sections/use-sections";
 import { DetailModal } from "./shared/DetailModal";
@@ -81,8 +81,8 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
           </div>
         )}
 
-        {isReady && navigation.tab === "grade" && (
-          <GradeView
+        {isReady && navigation.tab === "curriculum" && (
+          <CurriculumView
             coursesByCode={curriculum.data.courses}
             statuses={planning.statuses}
             relationFor={relationFor}
@@ -94,7 +94,7 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
           />
         )}
         {isReady && navigation.tab === "courses" && (
-          <CatalogView {...courses} onOpen={navigation.openCourse} />
+          <CoursesView {...courses} onOpen={navigation.openCourse} />
         )}
         {isReady && navigation.tab === "sections" && (
           <SectionsView {...sections} coursesByCode={curriculum.data.courses} onOpen={openSectionCourse} />
@@ -119,10 +119,10 @@ function AppHeader({ navigation }: { navigation: ReturnType<typeof useNavigation
     <header className="site-header">
       <a
         className="brand"
-        href={navigation.withBasePath("/grade/")}
+        href={navigation.withBasePath("/curriculum/")}
         onClick={(event) => {
           event.preventDefault();
-          navigation.navigate("grade");
+          navigation.navigate("curriculum");
         }}
       >
         <img className="brand-logo" src={navigation.withBasePath("/ufcg.png")} alt="UFCG" />

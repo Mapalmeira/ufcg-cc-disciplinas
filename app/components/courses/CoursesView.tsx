@@ -1,10 +1,10 @@
 import type { Course } from "../../curriculum/types";
-import { CatalogTable, type CourseSortKey } from "./CatalogTable";
-import { CatalogToolbar } from "./CatalogToolbar";
+import { CoursesTable, type CourseSortKey } from "./CoursesTable";
+import { CoursesToolbar } from "./CoursesToolbar";
 
-export type { CourseSortKey } from "./CatalogTable";
+export type { CourseSortKey } from "./CoursesTable";
 
-export function CatalogView({ courses, search, track, category, tracks, categories, sortKey, sortDirection, onSearch, onTrack, onCategory, onClear, onSort, onOpen }: {
+export function CoursesView({ courses, search, track, category, tracks, categories, sortKey, sortDirection, onSearch, onTrack, onCategory, onClear, onSort, onOpen }: {
   courses: Course[];
   search: string;
   track: string;
@@ -20,10 +20,10 @@ export function CatalogView({ courses, search, track, category, tracks, categori
   onSort: (key: CourseSortKey) => void;
   onOpen: (course: Course) => void;
 }) {
-  return <section className="catalog-section">
-    <CatalogToolbar search={search} track={track} category={category} tracks={tracks} categories={categories} onSearch={onSearch} onTrack={onTrack} onCategory={onCategory} onClear={onClear} />
+  return <section className="courses-section">
+    <CoursesToolbar search={search} track={track} category={category} tracks={tracks} categories={categories} onSearch={onSearch} onTrack={onTrack} onCategory={onCategory} onClear={onClear} />
     <div className="results-count"><strong>{courses.length}</strong> disciplinas encontradas</div>
-    <CatalogTable courses={courses} sortKey={sortKey} sortDirection={sortDirection} onSort={onSort} onOpen={onOpen} />
+    <CoursesTable courses={courses} sortKey={sortKey} sortDirection={sortDirection} onSort={onSort} onOpen={onOpen} />
     {!courses.length && <div className="empty-results"><strong>Nenhuma disciplina encontrada</strong><p>Ajuste os filtros ou tente outra busca.</p></div>}
   </section>;
 }

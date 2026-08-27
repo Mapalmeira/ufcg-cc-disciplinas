@@ -1,6 +1,6 @@
 # UFCG Computer Science Curriculum
 
-An interactive planner for exploring the 2023 Computer Science curriculum at the Federal University of Campina Grande. It brings courses, prerequisites, classes, and dependency relationships into one interface.
+An interactive planner for exploring the 2023 Computer Science curriculum at the Federal University of Campina Grande. It brings courses, prerequisites, sections, and dependency relationships into one interface.
 
 Data is fetched directly by the browser from sources supplied by or used by the Course Coordination. The production build is fully static and does not require a backend.
 

@@ -13,7 +13,7 @@ const columns: [CourseSortKey, string][] = [
 ];
 const centeredColumns = new Set<CourseSortKey>(["code", "hours", "credits", "category", "tracks"]);
 
-export function CatalogTable({ courses, sortKey, sortDirection, onSort, onOpen }: {
+export function CoursesTable({ courses, sortKey, sortDirection, onSort, onOpen }: {
   courses: Course[];
   sortKey: CourseSortKey;
   sortDirection: "asc" | "desc";
@@ -22,11 +22,11 @@ export function CatalogTable({ courses, sortKey, sortDirection, onSort, onOpen }
 }) {
   return <div className="table-wrap"><table>
     <thead><tr>{columns.map(([key, label]) => <th key={key} className={centeredColumns.has(key) ? "centered-column" : undefined}><button onClick={() => onSort(key)}>{label}<span>{sortKey === key ? (sortDirection === "asc" ? "↑" : "↓") : "↕"}</span></button></th>)}</tr></thead>
-    <tbody>{courses.map((course) => <CatalogRow key={course.code ?? course.names?.[0]} course={course} onOpen={onOpen} />)}</tbody>
+    <tbody>{courses.map((course) => <CourseRow key={course.code ?? course.names?.[0]} course={course} onOpen={onOpen} />)}</tbody>
   </table></div>;
 }
 
-function CatalogRow({ course, onOpen }: { course: Course; onOpen: (course: Course) => void }) {
+function CourseRow({ course, onOpen }: { course: Course; onOpen: (course: Course) => void }) {
   const tracks = splitTracks(course.tracks);
 
   return <tr>

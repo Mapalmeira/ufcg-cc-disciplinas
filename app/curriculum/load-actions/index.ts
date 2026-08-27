@@ -1,8 +1,8 @@
 /** Parses the ordered load actions configured for the curriculum loader. */
 import { ApplyAction } from "./apply-action.ts";
-import { ApplyClassesCsv } from "./classes-csv-action.ts";
-import { ApplyCourseCsv } from "./course-csv-action.ts";
+import { ApplyCoursesCsv } from "./courses-csv-action.ts";
 import { ApplyPpcJson } from "./ppc-json-action.ts";
+import { ApplySectionsCsv } from "./sections-csv-action.ts";
 import type { LoadAction } from "./load-action.ts";
 import type { CurriculumData } from "../types.ts";
 
@@ -39,12 +39,12 @@ function parseLoadAction(
     return new ApplyPpcJson(requiredString(action, "url"), nameMapping);
   }
 
-  if (action.type === "course_csv") {
-    return new ApplyCourseCsv(requiredString(action, "url"));
+  if (action.type === "courses_csv") {
+    return new ApplyCoursesCsv(requiredString(action, "url"));
   }
 
-  if (action.type === "classes_csv") {
-    return new ApplyClassesCsv(requiredString(action, "url"), current);
+  if (action.type === "sections_csv") {
+    return new ApplySectionsCsv(requiredString(action, "url"), current);
   }
 
   throw new Error(`Unknown load action type: ${String(action.type)}`);

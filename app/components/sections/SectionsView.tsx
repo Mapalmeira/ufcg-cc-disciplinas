@@ -14,7 +14,7 @@ export function SectionsView({ sections, coursesByCode, search, sortKey, sortDir
   onSort: (key: SectionSortKey) => void;
   onOpen: (section: Section) => void;
 }) {
-  return <section className="catalog-section sections-section">
+  return <section className="sections-section">
     <SectionsToolbar search={search} onSearch={onSearch} />
     <div className="results-count"><strong>{sections.length}</strong> turmas encontradas</div>
     <SectionsTable sections={sections} coursesByCode={coursesByCode} sortKey={sortKey} sortDirection={sortDirection} onSort={onSort} onOpen={onOpen} />

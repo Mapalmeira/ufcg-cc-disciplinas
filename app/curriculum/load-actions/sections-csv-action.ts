@@ -5,7 +5,7 @@ import { fetchCsv } from "./source-fetch.ts";
 import type { CurriculumData, Section } from "../types.ts";
 
 /** Loads class sections and enriches courses that already exist. */
-export class ApplyClassesCsv implements LoadAction {
+export class ApplySectionsCsv implements LoadAction {
   private readonly url: string;
   private readonly current: CurriculumData;
 

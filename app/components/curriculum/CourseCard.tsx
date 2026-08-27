@@ -1,6 +1,10 @@
 import type { Course } from "../../curriculum/types";
 
-export type CourseRelation = "prerequisite" | "corequisite" | "unlocks" | "focus";
+export type CourseRelation =
+  | "prerequisite"
+  | "corequisite"
+  | "unlocks"
+  | "focus";
 export type PlanningStatus = "paid" | "planned";
 
 export function CourseCard({ course, status, relation, dimmed, onCycle, onOpen, onHover }: {

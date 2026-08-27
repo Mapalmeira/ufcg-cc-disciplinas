@@ -5,7 +5,7 @@ import { fetchCsv } from "./source-fetch.ts";
 import type { Course, CurriculumData } from "../types.ts";
 
 /** Loads the curriculum spreadsheet and structures its course rows. */
-export class ApplyCourseCsv implements LoadAction {
+export class ApplyCoursesCsv implements LoadAction {
   private readonly url: string;
 
   constructor(url: string) {
