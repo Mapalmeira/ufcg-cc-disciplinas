@@ -1,5 +1,13 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import { useEffect } from "react";
+
+const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
 
 export default function NotFound() {
-  redirect("/");
+  useEffect(() => {
+    window.location.replace(`${basePath}/`);
+  }, []);
+
+  return null;
 }
