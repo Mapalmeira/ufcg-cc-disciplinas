@@ -181,10 +181,10 @@ tbody tr:hover { background: #f5f6f7; }
 .requirement-section li > strong { font-weight: 700; }
 .prerequisite-section { background: var(--blue-soft); border-color: #b9cbd4; border-left-color: var(--blue); }.prerequisite-section h3, .prerequisite-section button, .prerequisite-section li > strong { color: #476979; }
 .corequisite-section { background: var(--red-soft); border-color: #dec9c6; border-left-color: var(--red); }.corequisite-section h3 { color: #8a504b; }
-.direct-dependents-section { background: var(--unlock-soft); border-color: #c7d7ce; border-left-color: var(--unlock); }.direct-dependents-section h3 { color: #4e6f5d; }
-.direct-dependents-section button { color: #456754; }
-.indirect-dependents-section { background: #f4f3f7; border-color: #d8d2e0; border-left-color: var(--purple); margin-bottom: 0; }
-.indirect-dependents-section h3, .indirect-dependents-section button { color: #665b78; }
+.direct-dependencies-section { background: var(--unlock-soft); border-color: #c7d7ce; border-left-color: var(--unlock); }.direct-dependencies-section h3 { color: #4e6f5d; }
+.direct-dependencies-section button { color: #456754; }
+.indirect-dependencies-section { background: #f4f3f7; border-color: #d8d2e0; border-left-color: var(--purple); margin-bottom: 0; }
+.indirect-dependencies-section h3, .indirect-dependencies-section button { color: #665b78; }
 .empty-detail { color: var(--muted); font-style: italic; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
