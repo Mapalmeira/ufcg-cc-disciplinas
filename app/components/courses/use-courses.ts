@@ -11,9 +11,9 @@ function queryParameter(name: string) {
 }
 
 export function useCourses(coursesByCode: Readonly<Record<string, Course>>, activeTab: string) {
-  const [search, setSearch] = useState(() => queryParameter("busca"));
-  const [track, setTrack] = useState(() => queryParameter("trilha"));
-  const [category, setCategory] = useState(() => queryParameter("categoria"));
+  const [search, setSearch] = useState(() => queryParameter("search"));
+  const [track, setTrack] = useState(() => queryParameter("track"));
+  const [category, setCategory] = useState(() => queryParameter("category"));
   const [sortKey, setSortKey] = useState<CourseSortKey>("code");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
@@ -72,7 +72,7 @@ export function useCourses(coursesByCode: Readonly<Record<string, Course>>, acti
     if (activeTab !== "courses") return;
 
     const url = new URL(window.location.href);
-    const values = [["busca", nextSearch], ["trilha", nextTrack], ["categoria", nextCategory]];
+    const values = [["search", nextSearch], ["track", nextTrack], ["category", nextCategory]];
 
     for (const [name, value] of values) {
       if (value) url.searchParams.set(name, value);
