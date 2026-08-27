@@ -181,8 +181,10 @@ tbody tr:hover { background: #f5f6f7; }
 .requirement-section li > strong { font-weight: 700; }
 .prerequisite-section { background: var(--blue-soft); border-color: #b9cbd4; border-left-color: var(--blue); }.prerequisite-section h3 { color: #476979; }
 .corequisite-section { background: var(--red-soft); border-color: #dec9c6; border-left-color: var(--red); }.corequisite-section h3 { color: #8a504b; }
-.unlock-section { background: var(--unlock-soft); border-color: #c7d7ce; border-left-color: var(--unlock); margin-bottom: 0; }.unlock-section h3 { color: #4e6f5d; }
+.unlock-section { background: var(--unlock-soft); border-color: #c7d7ce; border-left-color: var(--unlock); }.unlock-section h3 { color: #4e6f5d; }
 .unlock-section button { color: #456754; }
+.reachability-section { background: #f4f3f7; border-color: #d8d2e0; border-left-color: var(--purple); margin-bottom: 0; }
+.reachability-section h3, .reachability-section button { color: #665b78; }
 .empty-detail { color: var(--muted); font-style: italic; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 

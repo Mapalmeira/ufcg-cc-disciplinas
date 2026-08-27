@@ -7,6 +7,7 @@ import type { CurriculumData } from "../../curriculum/types";
 const emptyData: CurriculumData = { courses: {}, sections: {} };
 const emptyIndexes = {
   directDependentsByCode: new Map<string, string[]>(),
+  indirectDependentsByCode: new Map<string, string[]>(),
 };
 
 export function useCurriculumData() {

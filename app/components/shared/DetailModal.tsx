@@ -3,10 +3,11 @@ import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
 import { formatCategory, formatPeriod, splitTracks } from "./utils";
 
-export function DetailModal({ course, coursesByCode, directDependents, onClose, onOpen }: {
+export function DetailModal({ course, coursesByCode, directDependents, indirectDependents, onClose, onOpen }: {
   course: Course;
   coursesByCode: Readonly<Record<string, Course>>;
   directDependents: string[];
+  indirectDependents: string[];
   onClose: () => void;
   onOpen: (course: Course) => void;
 }) {
@@ -37,6 +38,7 @@ export function DetailModal({ course, coursesByCode, directDependents, onClose, 
         <section className="detail-section"><h3>Ementa</h3><p className="syllabus">{course.syllabus ?? "Ementa não informada."}</p></section>
         <div className="detail-grid"><section className="detail-section requirement-section prerequisite-section"><h3>Pré-requisitos</h3>{renderCourseList(course.prerequisites ?? [], "Nenhum")}</section><section className="detail-section requirement-section corequisite-section"><h3>Co-requisitos</h3>{renderCourseList(course.corequisites ?? [], "Nenhum")}</section></div>
         <section className="detail-section requirement-section unlock-section"><h3>Libera diretamente</h3>{renderCourseList(directDependents, "Nenhuma")}</section>
+        <section className="detail-section requirement-section reachability-section"><h3>Permite alcançar</h3>{renderCourseList(indirectDependents, "Nenhuma")}</section>
       </div>
     </section>
   </div>;

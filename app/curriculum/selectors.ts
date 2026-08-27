@@ -21,9 +21,42 @@ export function directDependentsIndex(courses: Course[]) {
   return result;
 }
 
+export function reachableCourseCodesIndex(courseCodes: string[], directDependents: ReadonlyMap<string, string[]>) {
+  const result = new Map<string, string[]>();
+
+  for (const sourceCode of courseCodes) {
+    const visited = new Set([sourceCode]);
+    const queue = [...(directDependents.get(sourceCode) ?? [])];
+    const reachableCodes: string[] = [];
+
+    for (let index = 0; index < queue.length; index += 1) {
+      const code = queue[index];
+      if (visited.has(code)) continue;
+
+      visited.add(code);
+      reachableCodes.push(code);
+      queue.push(...(directDependents.get(code) ?? []));
+    }
+
+    if (reachableCodes.length) result.set(sourceCode, reachableCodes);
+  }
+
+  return result;
+}
+
 export function buildDependencyIndexes(coursesByCode: Readonly<Record<string, Course>>) {
   const courses = Object.values(coursesByCode).filter(isVisibleCourse);
   const directDependentsByCode = directDependentsIndex(courses);
+  const courseCodes = courses.map((course) => course.code);
+  const reachableCourseCodesByCode = reachableCourseCodesIndex(courseCodes, directDependentsByCode);
+  const indirectDependentsByCode = new Map<string, string[]>();
 
-  return { directDependentsByCode };
+  for (const [code, reachableCodes] of reachableCourseCodesByCode) {
+    const directCodes = new Set(directDependentsByCode.get(code) ?? []);
+    const indirectCodes = reachableCodes.filter((reachableCode) => !directCodes.has(reachableCode));
+
+    if (indirectCodes.length) indirectDependentsByCode.set(code, indirectCodes);
+  }
+
+  return { directDependentsByCode, indirectDependentsByCode };
 }

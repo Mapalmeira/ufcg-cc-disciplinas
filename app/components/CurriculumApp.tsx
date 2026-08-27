@@ -106,6 +106,7 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
           course={navigation.selected}
           coursesByCode={curriculum.data.courses}
           directDependents={curriculum.directDependentsByCode.get(navigation.selected.code ?? "") ?? []}
+          indirectDependents={curriculum.indirectDependentsByCode.get(navigation.selected.code ?? "") ?? []}
           onClose={navigation.closeCourse}
           onOpen={navigation.openCourse}
         />
