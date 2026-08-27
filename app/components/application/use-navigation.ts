@@ -11,6 +11,7 @@ export const tabs: { id: Tab; label: string }[] = [
 ];
 
 const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
+const courseQueryParameter = "course";
 const withBasePath = (path: string) => `${basePath}${path.startsWith("/") ? path : `/${path}`}`;
 const withoutBasePath = (path: string) => basePath && (path === basePath || path.startsWith(`${basePath}/`))
   ? path.slice(basePath.length) || "/"
@@ -26,21 +27,21 @@ export function useNavigation(initialTab: Tab, coursesByCode: Readonly<Record<st
   const [selected, setSelected] = useState<Course | null>(null);
 
   useEffect(() => {
-    const requested = new URL(window.location.href).searchParams.get("disciplina");
+    const requested = new URL(window.location.href).searchParams.get(courseQueryParameter);
     setSelected(selectableCourse(coursesByCode, requested));
   }, [coursesByCode]);
 
   const openCourse = useCallback((course: Course) => {
     setSelected(course);
     const url = new URL(window.location.href);
-    if (course.code) url.searchParams.set("disciplina", course.code);
+    if (course.code) url.searchParams.set(courseQueryParameter, course.code);
     window.history.pushState({}, "", url);
   }, []);
 
   const closeCourse = useCallback(() => {
     setSelected(null);
     const url = new URL(window.location.href);
-    url.searchParams.delete("disciplina");
+    url.searchParams.delete(courseQueryParameter);
     window.history.pushState({}, "", url);
   }, []);
 
@@ -49,7 +50,7 @@ export function useNavigation(initialTab: Tab, coursesByCode: Readonly<Record<st
       const pathTab = withoutBasePath(window.location.pathname).split("/")[1] as Tab;
       if (tabs.some((item) => item.id === pathTab)) setTab(pathTab);
 
-      const requested = new URL(window.location.href).searchParams.get("disciplina");
+      const requested = new URL(window.location.href).searchParams.get(courseQueryParameter);
       setSelected(selectableCourse(coursesByCode, requested));
     };
 
