@@ -1,5 +1,5 @@
 import type { Course } from "./types";
-import { isVisibleCourse } from "./course-utils";
+import { isVisibleCourse } from "./course-utils.ts";
 
 export function directDependentsIndex(courses: Course[]) {
   const result = new Map<string, string[]>();
