@@ -1,22 +1,26 @@
 import { useEffect } from "react";
+import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
-import { canonical, formatCategory, formatPeriod, resolveReference, splitTracks } from "./utils";
+import { formatCategory, formatPeriod, splitTracks } from "./utils";
 
-export function DetailModal({ course, courses, releases, onClose, onOpen }: {
+export function DetailModal({ course, coursesByCode, directDependents, onClose, onOpen }: {
   course: Course;
-  courses: Course[];
-  releases: Course[];
+  coursesByCode: Readonly<Record<string, Course>>;
+  directDependents: string[];
   onClose: () => void;
   onOpen: (course: Course) => void;
 }) {
-  const courseFor = (reference: string) => courses.find((item) => canonical(item.code) === canonical(resolveReference(reference, courses)));
+  const courseFor = (reference: string) => {
+    const target = coursesByCode[reference];
+    return isVisibleCourse(target) ? target : undefined;
+  };
   useEffect(() => {
     const close = (event: KeyboardEvent) => event.key === "Escape" && onClose();
     document.addEventListener("keydown", close);
     document.body.style.overflow = "hidden";
     return () => { document.removeEventListener("keydown", close); document.body.style.overflow = ""; };
   }, [onClose]);
-  const list = (items: string[], empty: string) => items.length ? <ul>{items.map((item) => {
+  const renderCourseList = (items: string[], empty: string) => items.length ? <ul>{items.map((item) => {
     const target = courseFor(item);
     return <li key={item}>{target
       ? <button onClick={() => onOpen(target)}>{target.code} — {target.names?.[0]}</button>
@@ -31,8 +35,8 @@ export function DetailModal({ course, courses, releases, onClose, onOpen }: {
       <div className="modal-content">
         <section className="detail-section unit-section"><h3>Unidade responsável</h3><p>{course.responsible_unit ?? "Não informada"}</p></section>
         <section className="detail-section"><h3>Ementa</h3><p className="syllabus">{course.syllabus ?? "Ementa não informada."}</p></section>
-        <div className="detail-grid"><section className="detail-section requirement-section prerequisite-section"><h3>Pré-requisitos</h3>{list(course.prerequisites ?? [], "Nenhum")}</section><section className="detail-section requirement-section corequisite-section"><h3>Co-requisitos</h3>{list(course.corequisites ?? [], "Nenhum")}</section></div>
-        <section className="detail-section requirement-section unlock-section"><h3>Libera</h3>{releases.length ? <ul>{releases.map((item) => <li key={item.code}><button onClick={() => onOpen(item)}>{item.code} — {item.names?.[0]}</button></li>)}</ul> : <p className="empty-detail">Nenhum</p>}</section>
+        <div className="detail-grid"><section className="detail-section requirement-section prerequisite-section"><h3>Pré-requisitos</h3>{renderCourseList(course.prerequisites ?? [], "Nenhum")}</section><section className="detail-section requirement-section corequisite-section"><h3>Co-requisitos</h3>{renderCourseList(course.corequisites ?? [], "Nenhum")}</section></div>
+        <section className="detail-section requirement-section unlock-section"><h3>Libera diretamente</h3>{renderCourseList(directDependents, "Nenhuma")}</section>
       </div>
     </section>
   </div>;

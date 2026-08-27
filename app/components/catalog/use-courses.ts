@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
 import type { CourseSortKey } from "./CatalogTable";
 import { formatCategory, plain, splitTracks } from "../shared/utils";
@@ -9,7 +10,7 @@ function queryParameter(name: string) {
     : new URL(window.location.href).searchParams.get(name) ?? "";
 }
 
-export function useCatalog(courses: Course[], activeTab: string) {
+export function useCourses(coursesByCode: Readonly<Record<string, Course>>, activeTab: string) {
   const [search, setSearch] = useState(() => queryParameter("busca"));
   const [track, setTrack] = useState(() => queryParameter("trilha"));
   const [category, setCategory] = useState(() => queryParameter("categoria"));
@@ -17,8 +18,10 @@ export function useCatalog(courses: Course[], activeTab: string) {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const catalog = useMemo(
-    () => courses.filter((course) => course.category !== "slot_optativa"),
-    [courses],
+    () => Object.values(coursesByCode)
+      .filter(isVisibleCourse)
+      .filter((course) => course.category !== "slot_optativa"),
+    [coursesByCode],
   );
 
   const tracks = useMemo(() => {

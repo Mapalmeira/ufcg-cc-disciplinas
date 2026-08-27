@@ -53,7 +53,7 @@ test("parses and resolves ordered curriculum load actions", async () => {
   assert.deepEqual(structure.courses["1411111"].mnemonics, ["MN"]);
   assert.equal(structure.courses["1411111"].category, "slot_optativa");
   assert.equal(structure.courses["1411111"].period, 3);
-  assert.deepEqual(structure.sections["1411111:01:0"], {
+  assert.deepEqual(structure.sections["1411111:01"], {
     course_code: "1411111",
     professor: "Professora Teste",
     professor_mnemonic: "prof",
@@ -63,7 +63,7 @@ test("parses and resolves ordered curriculum load actions", async () => {
     seats: "30",
   });
   assert.equal(structure.courses["9999999"], undefined);
-  assert.equal(structure.sections["9999999:01:1"].course_code, "9999999");
+  assert.equal(structure.sections["9999999:01"].course_code, "9999999");
 });
 
 test("rejects unknown action types", () => {

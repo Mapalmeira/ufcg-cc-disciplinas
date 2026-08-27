@@ -1,10 +1,11 @@
+import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
 import { CourseCard } from "./CourseCard";
 import type { CourseRelation, PlanningStatus } from "./CourseCard";
 import { formatPeriod } from "../shared/utils";
 
-export function GradeView({ courses, statuses, relationFor, hovered, onCycle, onOpen, onHover, onClear }: {
-  courses: Course[];
+export function GradeView({ coursesByCode, statuses, relationFor, hovered, onCycle, onOpen, onHover, onClear }: {
+  coursesByCode: Readonly<Record<string, Course>>;
   statuses: Record<string, PlanningStatus>;
   relationFor: (course: Course) => CourseRelation | undefined;
   hovered: Course | null;
@@ -13,6 +14,7 @@ export function GradeView({ courses, statuses, relationFor, hovered, onCycle, on
   onHover: (course: Course | null) => void;
   onClear: () => void;
 }) {
+  const courses = Object.values(coursesByCode).filter(isVisibleCourse);
   const periods = [...new Set(
     courses
       .map((course) => course.period)

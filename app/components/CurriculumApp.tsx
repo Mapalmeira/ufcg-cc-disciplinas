@@ -1,48 +1,46 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { courseIndex, releasesIndex } from "../curriculum/selectors";
 import type { Course } from "../curriculum/types";
 import { useCurriculumData } from "./application/use-curriculum-data";
 import { useNavigation, type Tab } from "./application/use-navigation";
 import { CatalogView } from "./catalog/CatalogView";
-import { useCatalog } from "./catalog/use-catalog";
+import { useCourses } from "./catalog/use-courses";
 import type { CourseRelation } from "./grade/CourseCard";
 import { GradeView } from "./grade/GradeView";
 import { usePlanning } from "./grade/use-planning";
 import { SectionsView } from "./sections/SectionsView";
 import { useSections } from "./sections/use-sections";
 import { DetailModal } from "./shared/DetailModal";
-import { canonical, resolveReference } from "./shared/utils";
 
 export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
-  const data = useCurriculumData();
-  const navigation = useNavigation(initialTab, data.courses);
+  const curriculum = useCurriculumData();
+  const navigation = useNavigation(initialTab, curriculum.data.courses);
   const planning = usePlanning();
-  const catalog = useCatalog(data.courses, navigation.tab);
-  const sections = useSections(data.sections, data.courses);
-  const courseByCode = useMemo(() => courseIndex(data.courses), [data.courses]);
-  const releasesByCode = useMemo(() => releasesIndex(data.courses), [data.courses]);
+  const courses = useCourses(curriculum.data.courses, navigation.tab);
+  const sections = useSections(curriculum.data.sections, curriculum.data.courses);
   const [hovered, setHovered] = useState<Course | null>(null);
 
   const hoveredPrerequisites = useMemo(
-    () => new Set((hovered?.prerequisites ?? []).map((item) => canonical(resolveReference(item, data.courses)))),
-    [data.courses, hovered],
+    () => new Set(hovered?.prerequisites ?? []),
+    [hovered],
   );
   const hoveredCorequisites = useMemo(
-    () => new Set((hovered?.corequisites ?? []).map((item) => canonical(resolveReference(item, data.courses)))),
-    [data.courses, hovered],
+    () => new Set(hovered?.corequisites ?? []),
+    [hovered],
   );
   const hoveredUnlocks = useMemo(
-    () => new Set((hovered ? releasesByCode.get(canonical(hovered.code)) ?? [] : []).map((item) => canonical(item.code))),
-    [hovered, releasesByCode],
+    () => new Set(hovered ? curriculum.directDependentsByCode.get(hovered.code ?? "") ?? [] : []),
+    [curriculum.directDependentsByCode, hovered],
   );
 
   const relationFor = (course: Course): CourseRelation | undefined => {
     if (!hovered) return undefined;
 
-    const code = canonical(course.code);
-    if (code === canonical(hovered.code)) return "focus";
+    const code = course.code;
+    if (!code) return undefined;
+
+    if (code === hovered.code) return "focus";
     if (hoveredPrerequisites.has(code)) return "prerequisite";
     if (hoveredCorequisites.has(code)) return "corequisite";
     if (hoveredUnlocks.has(code)) return "unlocks";
@@ -50,11 +48,11 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
   };
 
   const openSectionCourse = (section: { course_code?: string }) => {
-    const course = courseByCode.get(canonical(section.course_code));
+    const course = curriculum.data.courses[section.course_code ?? ""];
     if (course) navigation.openCourse(course);
   };
 
-  const isReady = !data.loading && !data.error;
+  const isReady = !curriculum.loading && !curriculum.error;
 
   return (
     <div className="app-shell">
@@ -72,20 +70,20 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
           ))}
         </div>
 
-        {data.loading && (
+        {curriculum.loading && (
           <div className="loading-state"><span /><p>Organizando a grade curricular...</p></div>
         )}
-        {!data.loading && data.error && (
+        {!curriculum.loading && curriculum.error && (
           <div className="error-state">
             <strong>Ops, os dados não chegaram.</strong>
-            <p>{data.error}</p>
+            <p>{curriculum.error}</p>
             <button onClick={() => window.location.reload()}>Tentar novamente</button>
           </div>
         )}
 
         {isReady && navigation.tab === "grade" && (
           <GradeView
-            courses={data.courses}
+            coursesByCode={curriculum.data.courses}
             statuses={planning.statuses}
             relationFor={relationFor}
             hovered={hovered}
@@ -96,18 +94,18 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
           />
         )}
         {isReady && navigation.tab === "disciplinas" && (
-          <CatalogView {...catalog} onOpen={navigation.openCourse} />
+          <CatalogView {...courses} onOpen={navigation.openCourse} />
         )}
         {isReady && navigation.tab === "turmas" && (
-          <SectionsView {...sections} courses={data.courses} onOpen={openSectionCourse} />
+          <SectionsView {...sections} coursesByCode={curriculum.data.courses} onOpen={openSectionCourse} />
         )}
       </main>
 
       {navigation.selected && (
         <DetailModal
           course={navigation.selected}
-          courses={data.courses}
-          releases={releasesByCode.get(canonical(navigation.selected.code)) ?? []}
+          coursesByCode={curriculum.data.courses}
+          directDependents={curriculum.directDependentsByCode.get(navigation.selected.code ?? "") ?? []}
           onClose={navigation.closeCourse}
           onOpen={navigation.openCourse}
         />

@@ -1,47 +1,29 @@
-import type { Course, CurriculumData } from "./types";
+import type { Course } from "./types";
+import { isVisibleCourse } from "./course-utils";
 
-function canonical(code: string | undefined) {
-  return (code ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "");
-}
-
-function plain(value: string) {
-  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-}
-
-export function visibleCourses(data: CurriculumData) {
-  return Object.values(data.courses).filter(
-    (course) => Boolean(course.code) && !course.ignored,
-  );
-}
-
-export function visibleSections(data: CurriculumData, courses: Course[]) {
-  const codes = new Set(courses.map((course) => canonical(course.code)));
-
-  return Object.values(data.sections).filter((section) => (
-    codes.has(canonical(section.course_code))
-  ));
-}
-
-export function courseIndex(courses: Course[]) {
-  return new Map(courses.map((course) => [canonical(course.code), course]));
-}
-
-export function releasesIndex(courses: Course[]) {
-  const result = new Map<string, Course[]>();
+export function directDependentsIndex(courses: Course[]) {
+  const result = new Map<string, string[]>();
 
   for (const course of courses) {
+    if (!course.code) continue;
+
     for (const reference of course.prerequisites ?? []) {
-      const source = courses.find((item) => (
-        canonical(item.code) === canonical(reference)
-        || (item.names ?? []).some((name) => plain(name) === plain(reference))
-      ));
+      const key = reference;
+      const courseKey = course.code;
+      const dependents = result.get(key) ?? [];
 
-      if (!source?.code) continue;
+      if (key === courseKey || dependents.includes(courseKey)) continue;
 
-      const key = canonical(source.code);
-      result.set(key, [...(result.get(key) ?? []), course]);
+      result.set(key, [...dependents, courseKey]);
     }
   }
 
   return result;
+}
+
+export function buildDependencyIndexes(coursesByCode: Readonly<Record<string, Course>>) {
+  const courses = Object.values(coursesByCode).filter(isVisibleCourse);
+  const directDependentsByCode = directDependentsIndex(courses);
+
+  return { directDependentsByCode };
 }

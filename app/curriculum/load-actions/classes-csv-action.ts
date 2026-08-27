@@ -21,7 +21,7 @@ export class ApplyClassesCsv implements LoadAction {
   private structure(rows: Record<string, string>[]): CurriculumData {
     const result = createCurriculumData();
 
-    for (const [index, row] of rows.entries()) {
+    for (const row of rows) {
       const code = row.codigo;
       const professorMnemonic = row.professor;
       const mnemonic = row.sigla;
@@ -33,7 +33,7 @@ export class ApplyClassesCsv implements LoadAction {
 
       if (!code || (!professor && !professorMnemonic)) continue;
 
-      const key = `${code}:${section || "no-section"}:${index}`;
+      const key = `${code}:${section || "no-section"}`;
       const record: Section = {
         course_code: code,
         professor: professor || professorMnemonic,

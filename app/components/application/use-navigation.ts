@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { isVisibleCourse } from "../../curriculum/course-utils";
 import type { Course } from "../../curriculum/types";
-import { canonical } from "../shared/utils";
 
 export type Tab = "grade" | "disciplinas" | "turmas";
 
@@ -16,18 +16,19 @@ const withoutBasePath = (path: string) => basePath && (path === basePath || path
   ? path.slice(basePath.length) || "/"
   : path;
 
-export function useNavigation(initialTab: Tab, courses: Course[]) {
+function selectableCourse(coursesByCode: Readonly<Record<string, Course>>, code: string | null) {
+  const course = code ? coursesByCode[code] : undefined;
+  return isVisibleCourse(course) && course.category !== "slot_optativa" ? course : null;
+}
+
+export function useNavigation(initialTab: Tab, coursesByCode: Readonly<Record<string, Course>>) {
   const [tab, setTab] = useState<Tab>(initialTab);
   const [selected, setSelected] = useState<Course | null>(null);
 
   useEffect(() => {
     const requested = new URL(window.location.href).searchParams.get("disciplina");
-    const requestedCourse = courses.find((course) => canonical(course.code) === canonical(requested ?? ""));
-
-    if (requestedCourse?.category !== "slot_optativa") {
-      setSelected(requestedCourse ?? null);
-    }
-  }, [courses]);
+    setSelected(selectableCourse(coursesByCode, requested));
+  }, [coursesByCode]);
 
   const openCourse = useCallback((course: Course) => {
     setSelected(course);
@@ -49,12 +50,12 @@ export function useNavigation(initialTab: Tab, courses: Course[]) {
       if (tabs.some((item) => item.id === pathTab)) setTab(pathTab);
 
       const requested = new URL(window.location.href).searchParams.get("disciplina");
-      setSelected(requested ? courses.find((course) => canonical(course.code) === canonical(requested)) ?? null : null);
+      setSelected(selectableCourse(coursesByCode, requested));
     };
 
     window.addEventListener("popstate", onBack);
     return () => window.removeEventListener("popstate", onBack);
-  }, [courses]);
+  }, [coursesByCode]);
 
   const navigate = useCallback((next: Tab) => {
     setTab(next);

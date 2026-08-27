@@ -1,5 +1,4 @@
 import type { Course, Section } from "../../curriculum/types";
-import { canonical } from "../shared/utils";
 
 export type SectionSortKey = "professor" | "course_code" | "course" | "section" | "room" | "schedule" | "seats" | "mnemonic";
 
@@ -14,19 +13,17 @@ const columns: [SectionSortKey, string][] = [
 ];
 const centeredColumns = new Set<SectionSortKey>(["course_code", "section", "schedule", "seats", "room"]);
 
-export function SectionsTable({ sections, courses, sortKey, sortDirection, onSort, onOpen }: {
+export function SectionsTable({ sections, coursesByCode, sortKey, sortDirection, onSort, onOpen }: {
   sections: Section[];
-  courses: Course[];
+  coursesByCode: Readonly<Record<string, Course>>;
   sortKey: SectionSortKey;
   sortDirection: "asc" | "desc";
   onSort: (key: SectionSortKey) => void;
   onOpen: (section: Section) => void;
 }) {
-  const courseByCode = new Map(courses.map((course) => [canonical(course.code), course]));
-
   return <div className="table-wrap"><table>
     <thead><tr>{columns.map(([key, label]) => <th key={key} className={`${centeredColumns.has(key) ? "centered-column" : ""} ${key === "schedule" ? "schedule-column" : ""}`.trim() || undefined}><button onClick={() => onSort(key)}>{label}<span>{sortKey === key ? (sortDirection === "asc" ? "↑" : "↓") : "↕"}</span></button></th>)}</tr></thead>
-    <tbody>{sections.map((section, index) => <SectionRow key={`${section.course_code}-${section.section}-${section.professor}-${index}`} section={section} course={courseByCode.get(canonical(section.course_code))} onOpen={onOpen} />)}</tbody>
+    <tbody>{sections.map((section, index) => <SectionRow key={`${section.course_code}-${section.section}-${section.professor}-${index}`} section={section} course={coursesByCode[section.course_code ?? ""]} onOpen={onOpen} />)}</tbody>
   </table></div>;
 }
 
