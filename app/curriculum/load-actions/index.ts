@@ -4,7 +4,10 @@ import { ApplyCoursesCsv } from "./courses-csv-action.ts";
 import { ApplyPpcJson } from "./ppc-json-action.ts";
 import { ApplySectionsCsv } from "./sections-csv-action.ts";
 import type { LoadAction } from "./load-action.ts";
+import { applyStructure } from "../curriculum-data.ts";
 import type { CurriculumData } from "../types.ts";
+
+export type LoadProgressHandler = (message: string) => void;
 
 function requiredString(action: Record<string, unknown>, field: string) {
   const value = action[field];
@@ -56,4 +59,38 @@ export function parseLoadActions(
   nameMapping: Record<string, string[]>,
 ) {
   return values.map((value) => parseLoadAction(value, current, nameMapping));
+}
+
+/** Fetches every source concurrently, then processes its result in config order. */
+export async function executeLoadActions(
+  actions: readonly LoadAction[],
+  current: CurriculumData,
+  onProgress?: LoadProgressHandler,
+) {
+  const sourceCount = actions.filter((action) => action.sourceName).length;
+  let fetchedSourceCount = 0;
+
+  if (sourceCount > 0) {
+    onProgress?.(`Baixando ${sourceCount} fontes de dados em paralelo...`);
+  }
+
+  const processors = await Promise.all(actions.map(async (action) => {
+    const processor = await action.fetch();
+
+    if (action.sourceName) {
+      fetchedSourceCount += 1;
+      onProgress?.(
+        `Fontes baixadas: ${fetchedSourceCount} de ${sourceCount} (${action.sourceName}).`,
+      );
+    }
+
+    return processor;
+  }));
+
+  for (const [index, processor] of processors.entries()) {
+    onProgress?.(actions[index].processingMessage);
+    applyStructure(current, processor());
+  }
+
+  return current;
 }

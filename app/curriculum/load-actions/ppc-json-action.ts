@@ -5,6 +5,8 @@ import type { Course, CurriculumData } from "../types.ts";
 
 /** Resolves PPC JSON load actions and maps names to course codes. */
 export class ApplyPpcJson implements LoadAction {
+  readonly sourceName = "dados do PPC";
+  readonly processingMessage = "Processando os dados do PPC...";
   private readonly url: string;
   private readonly nameMapping: Record<string, string[]>;
 
@@ -13,8 +15,9 @@ export class ApplyPpcJson implements LoadAction {
     this.nameMapping = nameMapping;
   }
 
-  async resolve() {
-    return this.structure(await fetchJson(this.url));
+  async fetch() {
+    const values = await fetchJson(this.url);
+    return () => this.structure(values);
   }
 
   private structure(values: unknown[]): CurriculumData {

@@ -15,11 +15,13 @@ const emptyIndexes = {
 export function useCurriculumData() {
   const [data, setData] = useState<CurriculumData>(emptyData);
   const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("Preparando as fontes de dados...");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    loadData()
+    loadData(setLoadingMessage)
       .then((data) => {
+        setLoadingMessage("Montando a visualização...");
         setData(data);
       })
       .catch(() => setError("Não foi possível carregar os dados agora. Tente atualizar a página em alguns instantes."))
@@ -38,6 +40,7 @@ export function useCurriculumData() {
     data,
     ...indexes,
     loading,
+    loadingMessage,
     error: error || emptyError,
   };
 }

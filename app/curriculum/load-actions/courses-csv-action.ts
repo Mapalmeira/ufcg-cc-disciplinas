@@ -6,14 +6,17 @@ import type { Course, CurriculumData } from "../types.ts";
 
 /** Loads the curriculum spreadsheet and structures its course rows. */
 export class ApplyCoursesCsv implements LoadAction {
+  readonly sourceName = "grade curricular";
+  readonly processingMessage = "Processando as disciplinas da grade...";
   private readonly url: string;
 
   constructor(url: string) {
     this.url = url;
   }
 
-  async resolve() {
-    return this.structure(await fetchCsv(this.url));
+  async fetch() {
+    const rows = await fetchCsv(this.url);
+    return () => this.structure(rows);
   }
 
   private structure(rows: Record<string, string>[]): CurriculumData {

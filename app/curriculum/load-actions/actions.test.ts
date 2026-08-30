@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { parseLoadActions } from "./index.ts";
+import { executeLoadActions, parseLoadActions } from "./index.ts";
 import { ApplyAction } from "./apply-action.ts";
 import { ApplyCoursesCsv } from "./courses-csv-action.ts";
-import { applyStructure, createCurriculumData } from "../curriculum-data.ts";
+import { createCurriculumData } from "../curriculum-data.ts";
 import { ApplyPpcJson } from "./ppc-json-action.ts";
 import { ApplySectionsCsv } from "./sections-csv-action.ts";
+import type { LoadAction } from "./load-action.ts";
 
 function dataUrl(type: string, content: string) {
   return `data:${type},${encodeURIComponent(content)}`;
@@ -45,9 +46,7 @@ test("parses and resolves ordered curriculum load actions", async () => {
   assert.ok(actions[2] instanceof ApplySectionsCsv);
   assert.ok(actions[3] instanceof ApplyAction);
 
-  for (const action of actions) {
-    applyStructure(structure, await action.resolve());
-  }
+  await executeLoadActions(actions, structure);
 
   assert.deepEqual(structure.courses["1411111"].names, ["Nome CSV", "Nome JSON"]);
   assert.deepEqual(structure.courses["1411111"].mnemonics, ["MN"]);
@@ -64,6 +63,65 @@ test("parses and resolves ordered curriculum load actions", async () => {
   });
   assert.equal(structure.courses["9999999"], undefined);
   assert.equal(structure.sections["9999999:01"].course_code, "9999999");
+});
+
+test("fetches sources in parallel and processes them in configuration order", async () => {
+  const structure = createCurriculumData();
+  const started: string[] = [];
+  const processed: string[] = [];
+  const progress: string[] = [];
+  let releaseFirst!: () => void;
+  let releaseSecond!: () => void;
+  const firstFetched = new Promise<void>((resolve) => { releaseFirst = resolve; });
+  const secondFetched = new Promise<void>((resolve) => { releaseSecond = resolve; });
+
+  const actions: LoadAction[] = [
+    {
+      sourceName: "primeira fonte",
+      processingMessage: "Processando primeira fonte...",
+      fetch() {
+        started.push("first");
+        return firstFetched.then(() => () => {
+          processed.push("first");
+          return {
+            courses: { "1411111": { names: ["Nome original"] } },
+            sections: {},
+          };
+        });
+      },
+    },
+    {
+      sourceName: "segunda fonte",
+      processingMessage: "Processando segunda fonte...",
+      fetch() {
+        started.push("second");
+        return secondFetched.then(() => () => {
+          processed.push("second");
+          assert.deepEqual(structure.courses["1411111"].names, ["Nome original"]);
+          return {
+            courses: { "1411111": { names: ["Nome atualizado"] } },
+            sections: {},
+          };
+        });
+      },
+    },
+  ];
+
+  const resultPromise = executeLoadActions(actions, structure, (message) => progress.push(message));
+
+  assert.deepEqual(started, ["first", "second"]);
+  releaseSecond();
+  await Promise.resolve();
+  assert.deepEqual(processed, []);
+
+  releaseFirst();
+  await resultPromise;
+
+  assert.deepEqual(processed, ["first", "second"]);
+  assert.deepEqual(structure.courses["1411111"].names, ["Nome atualizado", "Nome original"]);
+  assert.ok(progress.includes("Baixando 2 fontes de dados em paralelo..."));
+  assert.ok(progress.includes("Processando primeira fonte..."));
+  assert.ok(progress.includes("Processando segunda fonte..."));
 });
 
 test("rejects unknown action types", () => {

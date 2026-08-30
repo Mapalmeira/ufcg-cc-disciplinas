@@ -76,7 +76,10 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
         </div>
 
         {curriculum.loading && (
-          <div className="loading-state"><span /><p>Organizando a grade curricular...</p></div>
+          <div className="loading-state" role="status" aria-live="polite">
+            <span aria-hidden="true" />
+            <p>{curriculum.loadingMessage}</p>
+          </div>
         )}
         {!curriculum.loading && curriculum.error && (
           <div className="error-state">

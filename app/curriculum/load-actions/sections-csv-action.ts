@@ -6,6 +6,8 @@ import type { CurriculumData, Section } from "../types.ts";
 
 /** Loads class sections and enriches courses that already exist. */
 export class ApplySectionsCsv implements LoadAction {
+  readonly sourceName = "ofertas de turmas";
+  readonly processingMessage = "Processando as ofertas de turmas...";
   private readonly url: string;
   private readonly current: CurriculumData;
 
@@ -14,8 +16,9 @@ export class ApplySectionsCsv implements LoadAction {
     this.current = current;
   }
 
-  async resolve() {
-    return this.structure(await fetchCsv(this.url));
+  async fetch() {
+    const rows = await fetchCsv(this.url);
+    return () => this.structure(rows);
   }
 
   private structure(rows: Record<string, string>[]): CurriculumData {
