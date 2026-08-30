@@ -33,6 +33,10 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
     () => new Set(hovered ? curriculum.directDependentsByCode.get(hovered.code ?? "") ?? [] : []),
     [curriculum.directDependentsByCode, hovered],
   );
+  const hoveredIndirectDependents = useMemo(
+    () => new Set(hovered ? curriculum.indirectDependentsByCode.get(hovered.code ?? "") ?? [] : []),
+    [curriculum.indirectDependentsByCode, hovered],
+  );
 
   const relationFor = (course: Course): CourseRelation | undefined => {
     if (!hovered) return undefined;
@@ -44,6 +48,7 @@ export default function CurriculumApp({ initialTab }: { initialTab: Tab }) {
     if (hoveredPrerequisites.has(code)) return "prerequisite";
     if (hoveredCorequisites.has(code)) return "corequisite";
     if (hoveredUnlocks.has(code)) return "unlocks";
+    if (hoveredIndirectDependents.has(code)) return "indirect";
     return undefined;
   };
 

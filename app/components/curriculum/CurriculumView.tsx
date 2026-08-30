@@ -27,7 +27,7 @@ export function CurriculumView({ coursesByCode, statuses, relationFor, hovered, 
       <div className="toolbar">
         <div><span className="section-kicker">MATRIZ CURRICULAR</span><h2>Disciplinas por período</h2></div>
         <div className="toolbar-actions">
-          <div className="legend"><span><i className="legend-paid" /> Paguei</span><span><i className="legend-planned" /> Quero pagar</span><span><i className="legend-prereq" /> Pré-requisito</span><span><i className="legend-coreq" /> Co-requisito</span><span><i className="legend-unlocks" /> Libera</span></div>
+          <div className="legend"><span><i className="legend-paid" /> Paguei</span><span><i className="legend-planned" /> Quero pagar</span><span><i className="legend-prereq" /> Pré-requisito</span><span><i className="legend-coreq" /> Co-requisito</span><span><i className="legend-unlocks" /> Dependência direta</span><span><i className="legend-indirect" /> Dependência indireta</span></div>
           <button className="clear-planning" onClick={onClear} disabled={!hasPlanning}>Limpar planejamento</button>
         </div>
       </div>

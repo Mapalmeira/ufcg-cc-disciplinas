@@ -14,6 +14,10 @@
   --unlock-soft: #eaf1ed;
   --purple: #75698c;
   --purple-soft: #f0edf4;
+  --indirect: var(--purple);
+  --indirect-soft: #f4f3f7;
+  --gray: #747b79;
+  --gray-soft: #eef0ef;
   --blue: #4c7890;
   --blue-soft: #e9f0f3;
   --red: #aa625c;
@@ -72,7 +76,7 @@ main { min-height: calc(100vh - 150px); }
 .legend span { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; white-space: nowrap; }
 .legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
 .legend b { font-weight: 700; color: var(--ink); }
-.legend-paid { background: var(--purple); }.legend-planned { background: var(--amber); }.legend-prereq { background: var(--blue); }.legend-coreq { background: var(--red); }.legend-unlocks { background: var(--unlock); }
+.legend-paid { background: var(--gray); }.legend-planned { background: var(--amber); }.legend-prereq { background: var(--blue); }.legend-coreq { background: var(--red); }.legend-unlocks { background: var(--unlock); }.legend-indirect { background: var(--indirect); }
 .toolbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 16px; flex-wrap: wrap; }
 .clear-planning { border: 1px solid var(--line); border-radius: 8px; background: var(--white); color: #4f5754; padding: 9px 12px; font-size: 12px; font-weight: 750; cursor: pointer; white-space: nowrap; }
 .clear-planning:hover:not(:disabled), .clear-planning:focus-visible:not(:disabled) { border-color: #b6beba; background: #f5f6f5; color: var(--ink); outline: none; }
@@ -93,13 +97,23 @@ main { min-height: calc(100vh - 150px); }
 .course-card.corequisite::before { background: var(--red); }
 .course-card.unlocks { background: var(--unlock-soft); border-color: var(--unlock); opacity: 1; }
 .course-card.unlocks::before { background: var(--unlock); }
-.course-card.paid { background: var(--purple-soft); border-color: #bdb5cb; color: var(--ink); }
-.course-card.paid::before { background: var(--purple); }
+.course-card.indirect { background: var(--indirect-soft); border-color: var(--indirect); opacity: 1; }
+.course-card.indirect::before { background: var(--indirect); }
+.course-card.paid { background: var(--gray-soft); border-color: #c3c8c5; color: var(--ink); }
+.course-card.paid::before { background: var(--gray); }
 .course-card.planned { background: var(--amber-soft); border-color: #d7bd96; }
 .course-card.planned::before { background: var(--amber); }
+.course-card.paid.prerequisite, .course-card.planned.prerequisite { background: var(--blue-soft); border-color: var(--blue); }
+.course-card.paid.prerequisite::before, .course-card.planned.prerequisite::before { background: var(--blue); }
+.course-card.paid.corequisite, .course-card.planned.corequisite { background: var(--red-soft); border-color: var(--red); }
+.course-card.paid.corequisite::before, .course-card.planned.corequisite::before { background: var(--red); }
+.course-card.paid.unlocks, .course-card.planned.unlocks { background: var(--unlock-soft); border-color: var(--unlock); }
+.course-card.paid.unlocks::before, .course-card.planned.unlocks::before { background: var(--unlock); }
+.course-card.paid.indirect, .course-card.planned.indirect { background: var(--indirect-soft); border-color: var(--indirect); }
+.course-card.paid.indirect::before, .course-card.planned.indirect::before { background: var(--indirect); }
 .course-card.elective-slot { border: 1px dashed #aab8b0; background: transparent; display: flex; flex-direction: column; justify-content: center; }
 .course-card.elective-slot::before { display: none; }
-.course-card.elective-slot.paid { background: var(--purple-soft); border-style: solid; border-color: #bdb5cb; }
+.course-card.elective-slot.paid { background: var(--gray-soft); border-style: solid; border-color: #c3c8c5; }
 .course-card.elective-slot.planned { background: var(--amber-soft); border-style: solid; border-color: #d7bd96; }
 .course-card-top { display: flex; justify-content: space-between; align-items: center; min-height: clamp(14px, 1.1cqw, 19px); }
 .course-code { font-family: var(--font-geist-mono), monospace; font-size: var(--card-code-size); font-weight: 700; letter-spacing: .05em; color: var(--accent); }

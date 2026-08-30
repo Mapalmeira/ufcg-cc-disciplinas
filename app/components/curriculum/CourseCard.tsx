@@ -4,6 +4,7 @@ export type CourseRelation =
   | "prerequisite"
   | "corequisite"
   | "unlocks"
+  | "indirect"
   | "focus";
 export type PlanningStatus = "paid" | "planned";
 
