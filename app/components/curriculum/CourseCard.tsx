@@ -12,7 +12,7 @@ const relationSymbols: Partial<Record<CourseRelation, { symbol: string; label: s
   prerequisite: { symbol: "←", label: "Pré-requisito" },
   corequisite: { symbol: "⇄", label: "Co-requisito" },
   unlocks: { symbol: "→", label: "Depende diretamente" },
-  indirect: { symbol: "↝", label: "Dependência indireta" },
+  indirect: { symbol: "↝", label: "Depende indiretamente" },
 };
 
 export function CourseCard({ course, status, relation, dimmed, onCycle, onOpen, onHover }: {

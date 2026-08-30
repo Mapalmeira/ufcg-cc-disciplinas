@@ -27,7 +27,7 @@ export function CurriculumView({ coursesByCode, statuses, relationFor, hovered, 
       <div className="toolbar">
         <div><span className="section-kicker">MATRIZ CURRICULAR</span><h2>Disciplinas por período</h2></div>
         <div className="toolbar-actions">
-          <div className="legend"><span><i className="legend-symbol legend-paid" aria-hidden="true">✓</i> Paguei</span><span><i className="legend-symbol legend-planned" aria-hidden="true">◷</i> Quero pagar</span><span><i className="legend-symbol legend-prereq" aria-hidden="true">←</i> Pré-requisito</span><span><i className="legend-symbol legend-coreq" aria-hidden="true">⇄</i> Co-requisito</span><span><i className="legend-symbol legend-unlocks" aria-hidden="true">→</i> Depende diretamente</span><span><i className="legend-symbol legend-indirect" aria-hidden="true">↝</i> Dependência indireta</span></div>
+          <div className="legend"><span><i className="legend-symbol legend-paid" aria-hidden="true">✓</i> Paguei</span><span><i className="legend-symbol legend-planned" aria-hidden="true">◷</i> Quero pagar</span><span><i className="legend-symbol legend-prereq" aria-hidden="true">←</i> Pré-requisito</span><span><i className="legend-symbol legend-coreq" aria-hidden="true">⇄</i> Co-requisito</span><span><i className="legend-symbol legend-unlocks" aria-hidden="true">→</i> Depende diretamente</span><span><i className="legend-symbol legend-indirect" aria-hidden="true">↝</i> Depende indiretamente</span></div>
           <button className="clear-planning" onClick={onClear} disabled={!hasPlanning}>Limpar planejamento</button>
         </div>
       </div>
