@@ -40,7 +40,7 @@ export function CourseCard({ course, status, relation, dimmed, onCycle, onOpen, 
       <div className="course-card-top">
         <span className="course-code">{electiveSlot ? "ESPAÇO CURRICULAR" : course.code}</span>
         {relationMarker && <span className={`relation-symbol ${relation}`} role="img" aria-label={relationMarker.label} title={relationMarker.label}>{relationMarker.symbol}</span>}
-        {!electiveSlot && <button className="more-button" onClick={(event) => { event.stopPropagation(); onOpen(); }} aria-label={`Ver detalhes de ${name}`}><span /><span /><span /></button>}
+        {!electiveSlot && <button className="more-button" onClick={(event) => { event.stopPropagation(); onOpen(); }} aria-label={`Ver detalhes de ${name}`}><span aria-hidden="true"><i>i</i></span></button>}
       </div>
       <h3>{electiveSlot ? "Optativa" : name}</h3>
       {status && <span className="status-chip"><span aria-hidden="true">{status === "paid" ? "✓" : "◷"}</span> {status === "paid" ? "Paguei" : "Quero pagar"}</span>}
